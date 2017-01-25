@@ -1,0 +1,63 @@
+{
+  "name": "karma-coverage-istanbul-reporter",
+  "version": "0.1.0",
+  "description": "A karma reporter that uses the latest istanbul 1.x APIs to report coverage",
+  "main": "src/reporter.js",
+  "scripts": {
+    "lint": "xo",
+    "pretest": "npm run lint",
+    "test": "nyc mocha",
+    "test:watch": "mocha --watch",
+    "preversion": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mattlewis92/karma-coverage-istanbul-reporter.git"
+  },
+  "keywords": [
+    "karma-plugin",
+    "karma-reporter",
+    "coverage",
+    "istanbul",
+    "istanbuljs"
+  ],
+  "author": "Matt Lewis",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mattlewis92/karma-coverage-istanbul-reporter/issues"
+  },
+  "homepage": "https://github.com/mattlewis92/karma-coverage-istanbul-reporter#readme",
+  "dependencies": {
+    "istanbul-api": "^1.1.1"
+  },
+  "devDependencies": {
+    "@types/chai": "^3.4.34",
+    "@types/mocha": "^2.2.33",
+    "chai": "^3.5.0",
+    "istanbul-instrumenter-loader": "^1.2.0",
+    "karma": "^1.3.0",
+    "karma-mocha": "^1.3.0",
+    "karma-phantomjs-launcher": "^1.0.2",
+    "karma-sourcemap-loader": "^0.3.7",
+    "karma-webpack": "^1.8.0",
+    "mocha": "^3.2.0",
+    "nyc": "^10.0.0",
+    "ts-loader": "^1.3.3",
+    "typescript": "^2.1.0",
+    "webpack": "^1.14.0",
+    "xo": "^0.17.1"
+  },
+  "nyc": {
+    "reporter": [
+      "html",
+      "text-summary"
+    ]
+  },
+  "xo": {
+    "space": true,
+    "envs": [
+      "node",
+      "mocha"
+    ]
+  }
+}
