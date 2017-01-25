@@ -9,6 +9,7 @@
     "test": "nyc mocha",
     "test:watch": "mocha --watch",
     "preversion": "npm test",
+    "postversion": "npm publish",
     "codecov": "cat coverage/lcov.info | codecov"
   },
   "repository": {
