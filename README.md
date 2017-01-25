@@ -1,4 +1,6 @@
 # karma-coverage-istanbul-reporter
+[![Build Status](https://travis-ci.org/mattlewis92/karma-coverage-istanbul-reporter.svg?branch=master)](https://travis-ci.org/mattlewis92/karma-coverage-istanbul-reporter)
+[![codecov](https://codecov.io/gh/mattlewis92/karma-coverage-istanbul-reporter/branch/master/graph/badge.svg)](https://codecov.io/gh/mattlewis92/karma-coverage-istanbul-reporter)
 > A karma reporter that uses the latest istanbul 1.x APIs (with full sourcemap support) to report coverage.
 
 ## About
