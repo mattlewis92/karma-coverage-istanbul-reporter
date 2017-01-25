@@ -2,7 +2,7 @@
 > A karma reporter that uses the latest istanbul 1.x APIs (with full sourcemap support) to report coverage.
 
 ## About
-This is a reporter only and does not perform the actual instrumentation of your code. Webpack users should use the [istanbul-instrumenter-loader](https://github.com/deepsweet/istanbul-instrumenter-loader) and then use this karma reporter to do the actual reporting.
+This is a reporter only and does not perform the actual instrumentation of your code. Webpack users should use the [istanbul-instrumenter-loader](https://github.com/deepsweet/istanbul-instrumenter-loader) and then use this karma reporter to do the actual reporting. See the [test config](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/blob/master/test/karma.conf.js) for an e2e example of how to combine them.
 
 ## Installation
 
@@ -30,9 +30,9 @@ module.exports = function (config) {
 ```
 
 ## Credits
-Original karma-coverage source: https://github.com/karma-runner/karma-coverage/blob/master/lib/reporter.js
-Example of using the new reporter API: https://github.com/facebook/jest/blob/master/scripts/mapCoverage.js
-Karma remap istanbul: https://github.com/marcules/karma-remap-istanbul
+* Original karma-coverage source: https://github.com/karma-runner/karma-coverage/blob/master/lib/reporter.js
+* Example of using the new reporter API: https://github.com/facebook/jest/blob/master/scripts/mapCoverage.js
+* Karma remap istanbul: https://github.com/marcules/karma-remap-istanbul
 
 ## License
 MIT
