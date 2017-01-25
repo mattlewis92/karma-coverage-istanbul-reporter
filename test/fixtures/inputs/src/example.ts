@@ -1,3 +1,5 @@
+/* tslint:disable */
+
 export class Foo {
 
   bar(): boolean {

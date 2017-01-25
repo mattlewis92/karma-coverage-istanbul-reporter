@@ -4,6 +4,11 @@ const webpackConfig = {
   module: {
     rules: [{
       test: /\.ts$/,
+      loader: 'tslint-loader',
+      exclude: /node_modules/,
+      enforce: 'pre'
+    }, {
+      test: /\.ts$/,
       loader: 'ts-loader?silent=true',
       exclude: /node_modules/
     }, {

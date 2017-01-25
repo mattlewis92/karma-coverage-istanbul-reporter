@@ -24,7 +24,8 @@ module.exports = function (config) {
     reporters: ['coverage-istanbul'],
     coverageIstanbulReporter: {
       reports: ['json-summary'], // reports can be any that are listed here: https://github.com/istanbuljs/istanbul-reports/tree/master/lib
-      dir: './coverage' // output directory
+      dir: './coverage', // output directory
+      fixWebpackSourcePaths: true // if using webpack and pre-loaders, work around webpack breaking the source path
     }
   });
   

@@ -19,7 +19,8 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
   this.onRunComplete = function (browsers) {
     baseReporterOnRunComplete.apply(this, arguments);
 
-    const reportConfig = istanbul.config.loadObject({reporting: config.coverageIstanbulReporter});
+    const coverageIstanbulReporter = config.coverageIstanbulReporter || {};
+    const reportConfig = istanbul.config.loadObject({reporting: coverageIstanbulReporter});
     const reportTypes = reportConfig.reporting.config.reports;
 
     browsers.forEach(browser => {
@@ -36,7 +37,18 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
       const coverageMap = istanbul.libCoverage.createCoverageMap();
       const sourceMapStore = istanbul.libSourceMaps.createSourceMapStore();
 
-      Object.keys(coverage).forEach(filename => coverageMap.addFileCoverage(coverage[filename]));
+      Object.keys(coverage).forEach(filename => {
+        const fileCoverage = coverage[filename];
+        if (fileCoverage.inputSourceMap && coverageIstanbulReporter.fixWebpackSourcePaths) {
+          fileCoverage.inputSourceMap.sources = fileCoverage.inputSourceMap.sources.map(source => {
+            if (source.indexOf('!') !== -1) {
+              return source.split('!').pop();
+            }
+            return source;
+          });
+        }
+        coverageMap.addFileCoverage(fileCoverage);
+      });
 
       const remappedCoverageMap = sourceMapStore.transformCoverage(coverageMap).map;
 

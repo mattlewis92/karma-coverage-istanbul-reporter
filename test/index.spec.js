@@ -57,4 +57,25 @@ describe('karma-coverage-istanbul-reporter', () => {
       }, 300);
     });
   });
+
+  it('should fix webpack loader source paths', done => {
+    const server = createServer({
+      coverageIstanbulReporter: {
+        reports: ['json-summary'],
+        dir: './test/fixtures/outputs',
+        fixWebpackSourcePaths: true
+      }
+    });
+    server.start();
+    server.on('run_complete', () => {
+      setTimeout(() => { // hacky workaround to make sure the file has been written
+        const summary = JSON.parse(fs.readFileSync(path.join(__dirname, '/fixtures/outputs/coverage-summary.json')));
+        const files = Object.keys(summary);
+        files.forEach(file => {
+          expect(file).not.to.contain('tslint-loader');
+        });
+        done();
+      }, 300);
+    });
+  });
 });

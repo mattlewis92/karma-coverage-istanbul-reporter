@@ -1,3 +1,5 @@
+/* tslint:disable */
+
 import {expect} from 'chai';
 import {Foo} from './../src/example';
 
