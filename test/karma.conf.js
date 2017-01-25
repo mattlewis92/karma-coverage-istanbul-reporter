@@ -2,15 +2,15 @@ const webpack = require('webpack');
 
 const webpackConfig = {
   module: {
-    loaders: [{
+    rules: [{
       test: /\.ts$/,
       loader: 'ts-loader?silent=true',
       exclude: /node_modules/
-    }],
-    postLoaders: [{
+    }, {
       test: /src\/.+\.ts$/,
       exclude: /(node_modules|\.spec\.ts$)/,
-      loader: 'istanbul-instrumenter-loader'
+      loader: 'istanbul-instrumenter-loader',
+      enforce: 'post'
     }]
   },
   plugins: [
@@ -20,7 +20,7 @@ const webpackConfig = {
     })
   ],
   resolve: {
-    extensions: ['', '.ts', '.js']
+    extensions: ['.ts', '.js']
   }
 };
 
