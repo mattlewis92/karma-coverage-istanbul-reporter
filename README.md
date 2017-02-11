@@ -20,9 +20,8 @@ npm install karma-coverage-istanbul-reporter --save-dev
 
 ## Configuration
 
-Add the configuration in your `karma.conf.js`.
-
 ```js
+// karma.conf.js
 module.exports = function (config) {
   
   config.set({
