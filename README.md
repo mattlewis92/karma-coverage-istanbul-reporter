@@ -27,9 +27,9 @@ module.exports = function (config) {
   config.set({
     plugins: ['karma-coverage-istanbul-reporter'],
     reporters: ['coverage-istanbul'],
-    coverageIstanbulReporter: {
-      reports: ['json-summary'], // reports can be any that are listed here: https://github.com/istanbuljs/istanbul-reports/tree/master/lib
-      dir: './coverage', // output directory
+    coverageIstanbulReporter: { // any of these options are valid: https://github.com/istanbuljs/istanbul-api/blob/47b7803fbf7ca2fb4e4a15f3813a8884891ba272/lib/config.js#L33-L38
+      reports: ['html', 'lcovonly', 'text-summary'], // reports can be any that are listed here: https://github.com/istanbuljs/istanbul-reports/tree/590e6b0089f67b723a1fdf57bc7ccc080ff189d7/lib
+      dir: './coverage', // base output directory
       fixWebpackSourcePaths: true // if using webpack and pre-loaders, work around webpack breaking the source path
     }
   });
@@ -37,10 +37,40 @@ module.exports = function (config) {
 }
 ```
 
+### Individual reporter options
+Most reporters accept additional config options. You can pass these through the `report-config` option like so:
+```js
+config.set({
+  coverageIstanbulReporter: {
+    reports: ['html'], // make sure to specify the report in the array here as well as in report-options
+    dir: './coverage',
+    'report-options': {
+      html: { // all options available at: https://github.com/istanbuljs/istanbul-reports/blob/590e6b0089f67b723a1fdf57bc7ccc080ff189d7/lib/html/index.js#L135-L137
+        subdir: 'html' // outputs the report in ./coverage/html
+      }
+    }
+  }
+});
+```
+
+### List of reporters and options
+* [clover](https://github.com/istanbuljs/istanbul-reports/blob/590e6b0089f67b723a1fdf57bc7ccc080ff189d7/lib/clover/index.js#L9)
+* [cobertura](https://github.com/istanbuljs/istanbul-reports/blob/590e6b0089f67b723a1fdf57bc7ccc080ff189d7/lib/cobertura/index.js#L9-L10)
+* [html](https://github.com/istanbuljs/istanbul-reports/blob/590e6b0089f67b723a1fdf57bc7ccc080ff189d7/lib/html/index.js#L135-L137)
+* [json-summary](https://github.com/istanbuljs/istanbul-reports/blob/590e6b0089f67b723a1fdf57bc7ccc080ff189d7/lib/json-summary/index.js#L8)
+* [json](https://github.com/istanbuljs/istanbul-reports/blob/590e6b0089f67b723a1fdf57bc7ccc080ff189d7/lib/json/index.js#L8)
+* lcov
+* [lcovonly](https://github.com/istanbuljs/istanbul-reports/blob/590e6b0089f67b723a1fdf57bc7ccc080ff189d7/lib/lcovonly/index.js#L8)
+* none
+* [teamcity](https://github.com/istanbuljs/istanbul-reports/blob/590e6b0089f67b723a1fdf57bc7ccc080ff189d7/lib/teamcity/index.js#L9-L10)
+* [text-lcov](https://github.com/istanbuljs/istanbul-reports/blob/590e6b0089f67b723a1fdf57bc7ccc080ff189d7/lib/text-lcov/index.js#L9)
+* [text-summary](https://github.com/istanbuljs/istanbul-reports/blob/590e6b0089f67b723a1fdf57bc7ccc080ff189d7/lib/text-summary/index.js#L9)
+* [text](https://github.com/istanbuljs/istanbul-reports/blob/590e6b0089f67b723a1fdf57bc7ccc080ff189d7/lib/text/index.js#L141-L142)
+
 ## Credits
-* Original karma-coverage source: https://github.com/karma-runner/karma-coverage/blob/master/lib/reporter.js
-* Example of using the new reporter API: https://github.com/facebook/jest/blob/master/scripts/mapCoverage.js
-* Karma remap istanbul: https://github.com/marcules/karma-remap-istanbul
+* [Original karma-coverage source](https://github.com/karma-runner/karma-coverage/blob/master/lib/reporter.js)
+* [Example of using the new reporter API](https://github.com/facebook/jest/blob/master/scripts/mapCoverage.js)
+* [Karma remap istanbul](https://github.com/marcules/karma-remap-istanbul)
 
 ## License
 MIT
