@@ -23,34 +23,44 @@ npm install karma-coverage-istanbul-reporter --save-dev
 ```js
 // karma.conf.js
 module.exports = function (config) {
-  
-  config.set({
-    plugins: ['karma-coverage-istanbul-reporter'],
-    reporters: ['coverage-istanbul'],
-    coverageIstanbulReporter: { // any of these options are valid: https://github.com/istanbuljs/istanbul-api/blob/47b7803fbf7ca2fb4e4a15f3813a8884891ba272/lib/config.js#L33-L38
-      reports: ['html', 'lcovonly', 'text-summary'], // reports can be any that are listed here: https://github.com/istanbuljs/istanbul-reports/tree/590e6b0089f67b723a1fdf57bc7ccc080ff189d7/lib
-      dir: './coverage', // base output directory
-      fixWebpackSourcePaths: true // if using webpack and pre-loaders, work around webpack breaking the source path
-    }
-  });
-  
-}
-```
 
-### Individual reporter options
-Most reporters accept additional config options. You can pass these through the `report-config` option like so:
-```js
-config.set({
-  coverageIstanbulReporter: {
-    reports: ['html'], // make sure to specify the report in the array here as well as in report-options
-    dir: './coverage',
-    'report-options': {
-      html: { // all options available at: https://github.com/istanbuljs/istanbul-reports/blob/590e6b0089f67b723a1fdf57bc7ccc080ff189d7/lib/html/index.js#L135-L137
-        subdir: 'html' // outputs the report in ./coverage/html
+  config.set({
+
+    // ... rest of karma config
+
+    // anything named karma-* is normally auto included so you probably dont need this
+    plugins: ['karma-coverage-istanbul-reporter'],
+
+    reporters: ['coverage-istanbul'],
+
+    // any of these options are valid: https://github.com/istanbuljs/istanbul-api/blob/47b7803fbf7ca2fb4e4a15f3813a8884891ba272/lib/config.js#L33-L38
+    coverageIstanbulReporter: {
+
+       // reports can be any that are listed here: https://github.com/istanbuljs/istanbul-reports/tree/590e6b0089f67b723a1fdf57bc7ccc080ff189d7/lib
+      reports: ['html', 'lcovonly', 'text-summary'],
+
+       // base output directory
+      dir: './coverage',
+
+       // if using webpack and pre-loaders, work around webpack breaking the source path
+      fixWebpackSourcePaths: true,
+
+       // Most reporters accept additional config options. You can pass these through the `report-config` option
+      'report-options': {
+
+        // all options available at: https://github.com/istanbuljs/istanbul-reports/blob/590e6b0089f67b723a1fdf57bc7ccc080ff189d7/lib/html/index.js#L135-L137
+        html: {
+           // outputs the report in ./coverage/html
+          subdir: 'html'
+        }
+
       }
+
     }
-  }
-});
+
+  });
+
+}
 ```
 
 ### List of reporters and options
