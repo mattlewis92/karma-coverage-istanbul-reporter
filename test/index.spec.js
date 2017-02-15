@@ -71,7 +71,7 @@ describe('karma-coverage-istanbul-reporter', () => {
       setTimeout(() => { // hacky workaround to make sure the file has been written
         const summary = JSON.parse(fs.readFileSync(path.join(__dirname, '/fixtures/outputs/coverage-summary.json')));
         const files = Object.keys(summary);
-        files.forEach(file => { // eslint-disable-line
+        files.forEach(file => { // eslint-disable-line max-nested-callbacks
           expect(file).not.to.contain('tslint-loader');
         });
         done();
