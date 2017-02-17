@@ -43,11 +43,11 @@ module.exports = function (config) {
     reporters: ['coverage-istanbul'],
 
     files: [
-      'fixtures/inputs/test/test.spec.ts'
+      'fixtures/typescript/test/test.spec.ts'
     ],
 
     preprocessors: {
-      'fixtures/inputs/test/test.spec.ts': ['webpack', 'sourcemap']
+      'fixtures/typescript/test/test.spec.ts': ['webpack', 'sourcemap']
     },
 
     webpack: webpackConfig,

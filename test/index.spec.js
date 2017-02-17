@@ -2,9 +2,11 @@ const fs = require('fs');
 const path = require('path');
 const chai = require('chai');
 const karma = require('karma');
+const rimraf = require('rimraf');
+const karmaCoverageIstanbulReporter = require('../src/reporter');
 
 const expect = chai.expect;
-const karmaCoverage = require('../src/reporter');
+const OUTPUT_FILE = path.join(__dirname, '/fixtures/outputs/coverage-summary.json');
 
 function createServer(config) {
   config = config || {};
@@ -15,18 +17,22 @@ function createServer(config) {
       'karma-phantomjs-launcher',
       'karma-webpack',
       'karma-sourcemap-loader',
-      karmaCoverage
+      karmaCoverageIstanbulReporter
     ]
   }, config), () => {});
 }
 
 describe('karma-coverage-istanbul-reporter', () => {
+  beforeEach(() => {
+    rimraf.sync(OUTPUT_FILE);
+  });
+
   it('should generate a remapped coverage report', done => {
     const server = createServer();
     server.start();
     server.on('run_complete', () => {
       setTimeout(() => { // hacky workaround to make sure the file has been written
-        const summary = JSON.parse(fs.readFileSync(path.join(__dirname, '/fixtures/outputs/coverage-summary.json')));
+        const summary = JSON.parse(fs.readFileSync(OUTPUT_FILE));
         expect(summary.total).to.deep.equal({
           lines: {
             total: 6,
@@ -69,7 +75,7 @@ describe('karma-coverage-istanbul-reporter', () => {
     server.start();
     server.on('run_complete', () => {
       setTimeout(() => { // hacky workaround to make sure the file has been written
-        const summary = JSON.parse(fs.readFileSync(path.join(__dirname, '/fixtures/outputs/coverage-summary.json')));
+        const summary = JSON.parse(fs.readFileSync(OUTPUT_FILE));
         const files = Object.keys(summary);
         files.forEach(file => { // eslint-disable-line max-nested-callbacks
           expect(file).not.to.contain('tslint-loader');

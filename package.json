@@ -48,6 +48,7 @@
     "karma-webpack": "^2.0.1",
     "mocha": "^3.2.0",
     "nyc": "^10.0.0",
+    "rimraf": "^2.5.4",
     "ts-loader": "^2.0.0",
     "tslint": "^4.3.1",
     "tslint-loader": "^3.3.0",
