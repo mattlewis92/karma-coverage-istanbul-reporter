@@ -41,14 +41,13 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
         const fileCoverage = coverage[filename];
         if (fileCoverage.inputSourceMap && coverageIstanbulReporter.fixWebpackSourcePaths) {
           fileCoverage.inputSourceMap.sources = fileCoverage.inputSourceMap.sources.map(source => {
-            let ret = source;
-            if (ret.indexOf('!') !== -1) {
-              ret = ret.split('!').pop();
+            if (source.indexOf('!') !== -1) {
+              source = source.split('!').pop();
             }
-            if (ret.indexOf('?') !== -1) {
-              ret = source.split('?').shift();
+            if (source.indexOf('?') !== -1) {
+              source = source.split('?')[0];
             }
-            return ret;
+            return source;
           });
         }
         coverageMap.addFileCoverage(fileCoverage);
