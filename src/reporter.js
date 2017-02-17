@@ -42,7 +42,10 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
         if (fileCoverage.inputSourceMap && coverageIstanbulReporter.fixWebpackSourcePaths) {
           fileCoverage.inputSourceMap.sources = fileCoverage.inputSourceMap.sources.map(source => {
             if (source.indexOf('!') !== -1) {
-              return source.split('!').pop();
+              source = source.split('!').pop();
+            }
+            if (source.indexOf('?') !== -1) {
+              source = source.split('?')[0];
             }
             return source;
           });
