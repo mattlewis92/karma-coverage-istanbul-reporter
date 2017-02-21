@@ -7,6 +7,8 @@ const karmaCoverageIstanbulReporter = require('../src/reporter');
 
 const expect = chai.expect;
 const OUTPUT_FILE = path.join(__dirname, '/fixtures/outputs/coverage-summary.json');
+const isWin = /^win/.test(process.platform);
+const fileReadTimeout = isWin ? 3000 : 300;
 
 function createServer(config) {
   config = config || {};
@@ -60,7 +62,7 @@ describe('karma-coverage-istanbul-reporter', () => {
           }
         });
         done();
-      }, 300);
+      }, fileReadTimeout);
     });
   });
 
@@ -81,7 +83,7 @@ describe('karma-coverage-istanbul-reporter', () => {
           expect(file).not.to.contain('tslint-loader');
         });
         done();
-      }, 300);
+      }, fileReadTimeout);
     });
   });
 });
