@@ -68,7 +68,7 @@ describe('karma-coverage-istanbul-reporter', () => {
     const server = createServer({
       coverageIstanbulReporter: {
         reports: ['json-summary'],
-        dir: './test/fixtures/outputs',
+        dir: path.join(__dirname, 'fixtures', 'outputs'),
         fixWebpackSourcePaths: true
       }
     });
