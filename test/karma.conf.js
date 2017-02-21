@@ -1,3 +1,4 @@
+const path = require('path');
 const webpack = require('webpack');
 
 const webpackConfig = {
@@ -59,7 +60,7 @@ module.exports = function (config) {
 
     coverageIstanbulReporter: {
       reports: ['json-summary'],
-      dir: './test/fixtures/outputs'
+      dir: path.join(__dirname, 'fixtures', 'outputs')
     },
 
     logLevel: config.LOG_DISABLE
