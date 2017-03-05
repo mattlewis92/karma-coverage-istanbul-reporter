@@ -1,3 +1,5 @@
+'use strict';
+
 const istanbul = require('istanbul-api');
 
 function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
