@@ -4,6 +4,7 @@ const chai = require('chai');
 const karma = require('karma');
 const rimraf = require('rimraf');
 const karmaCoverageIstanbulReporter = require('../src/reporter');
+const OUTPUT_LOG_FILE = require('./karma.conf').OUTPUT_LOG_FILE;
 
 const expect = chai.expect;
 const OUTPUT_FILE = path.join(__dirname, '/fixtures/outputs/coverage-summary.json');
@@ -27,6 +28,7 @@ function createServer(config) {
 describe('karma-coverage-istanbul-reporter', () => {
   beforeEach(() => {
     rimraf.sync(OUTPUT_FILE);
+    rimraf.sync(OUTPUT_LOG_FILE);
   });
 
   it('should generate a remapped coverage report', done => {
@@ -84,6 +86,65 @@ describe('karma-coverage-istanbul-reporter', () => {
         });
         done();
       }, fileReadTimeout);
+    });
+  });
+
+  describe('coverage thresholds', () => {
+    it('should not meet the thresholds', done => {
+      const server = createServer({
+        singleRun: false, // hack to make sure the test process doesn't exit with a failing error code
+        coverageIstanbulReporter: {
+          reports: ['json-summary'],
+          dir: path.join(__dirname, 'fixtures', 'outputs'),
+          thresholds: {
+            statements: 100,
+            lines: 100,
+            branches: 100,
+            functions: 100
+          }
+        }
+      });
+      server.start();
+
+      function checkOutput() {
+        const output = fs.readFileSync(OUTPUT_LOG_FILE).toString();
+        expect(output).to.contain('[ERROR] reporter.coverage-istanbul - Coverage for statements (85.71%) does not meet global threshold (100%)');
+        expect(output).to.contain('[ERROR] reporter.coverage-istanbul - Coverage for lines (83.33%) does not meet global threshold (100%)');
+        expect(output).to.contain('[ERROR] reporter.coverage-istanbul - Coverage for functions (66.67%) does not meet global threshold (100%)');
+        done();
+      }
+
+      server.on('run_complete', () => {
+        setTimeout(checkOutput, fileReadTimeout); // hacky workaround to make sure the output file has been written
+      });
+    });
+
+    it('should meet the thresholds', done => {
+      const server = createServer({
+        coverageIstanbulReporter: {
+          reports: ['json-summary'],
+          dir: path.join(__dirname, 'fixtures', 'outputs'),
+          thresholds: {
+            statements: 50,
+            lines: 50,
+            branches: 50,
+            functions: 50
+          }
+        }
+      });
+      server.start();
+
+      function checkOutput() {
+        const output = fs.readFileSync(OUTPUT_LOG_FILE).toString();
+        expect(output).not.to.contain('[ERROR] reporter.coverage-istanbul - Coverage for statements (85.71%) does not meet global threshold (50%)');
+        expect(output).not.to.contain('[ERROR] reporter.coverage-istanbul - Coverage for lines (83.33%) does not meet global threshold (50%)');
+        expect(output).not.to.contain('[ERROR] reporter.coverage-istanbul - Coverage for functions (66.67%) does not meet global threshold (50%)');
+        done();
+      }
+
+      server.on('run_complete', () => {
+        setTimeout(checkOutput, fileReadTimeout); // hacky workaround to make sure the output file has been written
+      });
     });
   });
 });

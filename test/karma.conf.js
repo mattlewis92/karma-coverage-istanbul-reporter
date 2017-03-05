@@ -1,6 +1,8 @@
 const path = require('path');
 const webpack = require('webpack');
 
+const OUTPUT_LOG_FILE = path.join(__dirname, 'fixtures', 'outputs', 'karma-output.log');
+
 const webpackConfig = {
   module: {
     rules: [{
@@ -63,7 +65,12 @@ module.exports = function (config) {
       dir: path.join(__dirname, 'fixtures', 'outputs')
     },
 
-    logLevel: config.LOG_DISABLE
+    loggers: [{
+      type: 'file',
+      filename: OUTPUT_LOG_FILE
+    }]
 
   });
 };
+
+module.exports.OUTPUT_LOG_FILE = OUTPUT_LOG_FILE;

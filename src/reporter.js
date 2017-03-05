@@ -8,11 +8,9 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
   const browserCoverage = new WeakMap();
 
   this.onBrowserComplete = function (browser, result) {
-    if (!result || !result.coverage) {
-      return;
+    if (result && result.coverage) {
+      browserCoverage.set(browser, result.coverage);
     }
-
-    browserCoverage.set(browser, result.coverage);
   };
 
   const baseReporterOnRunComplete = this.onRunComplete;
@@ -20,7 +18,9 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
     baseReporterOnRunComplete.apply(this, arguments);
 
     const coverageIstanbulReporter = config.coverageIstanbulReporter || {};
-    const reportConfig = istanbul.config.loadObject({reporting: coverageIstanbulReporter});
+    const reportConfig = istanbul.config.loadObject({
+      reporting: coverageIstanbulReporter
+    });
     const reportTypes = reportConfig.reporting.config.reports;
 
     browsers.forEach(browser => {
@@ -58,6 +58,26 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
       log.debug('Writing coverage reports:', reportTypes);
 
       reporter.write(remappedCoverageMap);
+
+      const thresholds = coverageIstanbulReporter.thresholds;
+      if (thresholds) {
+        // adapted from https://github.com/istanbuljs/nyc/blob/98ebdff573be91e1098bb7259776a9082a5c1ce1/index.js#L463-L478
+        let thresholdCheckFailed = false;
+        const summary = remappedCoverageMap.getCoverageSummary();
+        Object.keys(thresholds).forEach(key => {
+          const coverage = summary[key].pct;
+          if (coverage < thresholds[key]) {
+            thresholdCheckFailed = true;
+            log.error(`Coverage for ${key} (${coverage}%) does not meet global threshold (${thresholds[key]}%)`);
+          }
+        });
+        /* istanbul ignore if */
+        if (thresholdCheckFailed && config.singleRun) {
+          process.on('exit', () => {
+            process.exit(1);
+          });
+        }
+      }
     });
   };
 }

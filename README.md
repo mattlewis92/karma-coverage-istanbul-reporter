@@ -54,6 +54,15 @@ module.exports = function (config) {
           subdir: 'html'
         }
 
+      },
+
+       // enforce percentage thresholds
+       // anything under these percentages will cause karma to fail with an exit code of 1 if not running in watch mode
+      thresholds: {
+        statements: 100,
+        lines: 100,
+        branches: 100,
+        functions: 100
       }
 
     }
