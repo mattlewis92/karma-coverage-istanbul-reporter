@@ -8,8 +8,7 @@ const OUTPUT_LOG_FILE = require('./karma.conf').OUTPUT_LOG_FILE;
 
 const expect = chai.expect;
 const OUTPUT_FILE = path.join(__dirname, '/fixtures/outputs/coverage-summary.json');
-const isWin = /^win/.test(process.platform);
-const fileReadTimeout = isWin ? 3000 : 300;
+const fileReadTimeout = 300;
 
 function createServer(config) {
   config = config || {};
@@ -35,7 +34,7 @@ describe('karma-coverage-istanbul-reporter', () => {
     const server = createServer();
     server.start();
     server.on('run_complete', () => {
-      setTimeout(() => { // hacky workaround to make sure the file has been written
+      setTimeout(() => { // Hacky workaround to make sure the file has been written
         const summary = JSON.parse(fs.readFileSync(OUTPUT_FILE));
         expect(summary.total).to.deep.equal({
           lines: {
@@ -78,7 +77,7 @@ describe('karma-coverage-istanbul-reporter', () => {
     });
     server.start();
     server.on('run_complete', () => {
-      setTimeout(() => { // hacky workaround to make sure the file has been written
+      setTimeout(() => { // Hacky workaround to make sure the file has been written
         const summary = JSON.parse(fs.readFileSync(OUTPUT_FILE));
         const files = Object.keys(summary);
         files.forEach(file => { // eslint-disable-line max-nested-callbacks
@@ -92,7 +91,7 @@ describe('karma-coverage-istanbul-reporter', () => {
   describe('coverage thresholds', () => {
     it('should not meet the thresholds', done => {
       const server = createServer({
-        singleRun: false, // hack to make sure the test process doesn't exit with a failing error code
+        singleRun: false, // Hack to make sure the test process doesn't exit with a failing error code
         coverageIstanbulReporter: {
           reports: ['json-summary'],
           dir: path.join(__dirname, 'fixtures', 'outputs'),
@@ -115,7 +114,7 @@ describe('karma-coverage-istanbul-reporter', () => {
       }
 
       server.on('run_complete', () => {
-        setTimeout(checkOutput, fileReadTimeout); // hacky workaround to make sure the output file has been written
+        setTimeout(checkOutput, fileReadTimeout); // Hacky workaround to make sure the output file has been written
       });
     });
 
@@ -143,7 +142,7 @@ describe('karma-coverage-istanbul-reporter', () => {
       }
 
       server.on('run_complete', () => {
-        setTimeout(checkOutput, fileReadTimeout); // hacky workaround to make sure the output file has been written
+        setTimeout(checkOutput, fileReadTimeout); // Hacky workaround to make sure the output file has been written
       });
     });
   });
