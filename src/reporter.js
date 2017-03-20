@@ -72,7 +72,7 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
 
       const thresholds = coverageIstanbulReporter.thresholds;
       if (thresholds) {
-        // adapted from https://github.com/istanbuljs/nyc/blob/98ebdff573be91e1098bb7259776a9082a5c1ce1/index.js#L463-L478
+        // Adapted from https://github.com/istanbuljs/nyc/blob/98ebdff573be91e1098bb7259776a9082a5c1ce1/index.js#L463-L478
         let thresholdCheckFailed = false;
         const summary = remappedCoverageMap.getCoverageSummary();
         Object.keys(thresholds).forEach(key => {
