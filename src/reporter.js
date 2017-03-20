@@ -1,6 +1,7 @@
 'use strict';
 
 const istanbul = require('istanbul-api');
+const fixWebpackSourcePaths = require('./util').fixWebpackSourcePaths;
 
 function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
   baseReporterDecorator(this);
@@ -42,15 +43,7 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
       Object.keys(coverage).forEach(filename => {
         const fileCoverage = coverage[filename];
         if (fileCoverage.inputSourceMap && coverageIstanbulReporter.fixWebpackSourcePaths) {
-          fileCoverage.inputSourceMap.sources = fileCoverage.inputSourceMap.sources.map(source => {
-            if (source.indexOf('!') !== -1) {
-              source = source.split('!').pop();
-            }
-            if (source.indexOf('?') !== -1) {
-              source = source.split('?')[0];
-            }
-            return source;
-          });
+          fileCoverage.inputSourceMap = fixWebpackSourcePaths(fileCoverage.inputSourceMap);
         }
         coverageMap.addFileCoverage(fileCoverage);
       });
