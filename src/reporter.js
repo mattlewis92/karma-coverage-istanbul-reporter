@@ -2,7 +2,7 @@
 
 const istanbul = require('istanbul-api');
 
-const isWin = /^win/.test(process.platform);
+const isWin = process.platform.startsWith('win');
 
 function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
   baseReporterDecorator(this);
@@ -51,7 +51,7 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
             if (source.indexOf('?') !== -1) {
               source = source.split('?')[0];
             }
-            // workaround for https://github.com/mattlewis92/karma-coverage-istanbul-reporter/issues/9
+            // Workaround for https://github.com/mattlewis92/karma-coverage-istanbul-reporter/issues/9
             if (isWin) {
               source = source.replace(/\\/g, '/');
             }
