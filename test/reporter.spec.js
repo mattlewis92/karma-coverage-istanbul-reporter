@@ -10,9 +10,6 @@ const expect = chai.expect;
 const OUTPUT_PATH = path.join(__dirname, 'fixtures', 'outputs');
 const OUTPUT_FILE = path.join(OUTPUT_PATH, 'coverage-summary.json');
 const fileReadTimeout = 300;
-if (!fs.existsSync(OUTPUT_PATH)) {
-  fs.mkdirSync(OUTPUT_PATH);
-}
 
 function createServer(config) {
   config = config || {};
@@ -30,8 +27,9 @@ function createServer(config) {
 
 describe('karma-coverage-istanbul-reporter', () => {
   beforeEach(() => {
-    rimraf.sync(OUTPUT_FILE);
+    rimraf.sync(OUTPUT_PATH);
     rimraf.sync(OUTPUT_LOG_FILE);
+    fs.mkdirSync(OUTPUT_PATH);
   });
 
   it('should generate a remapped coverage report', done => {
@@ -87,6 +85,22 @@ describe('karma-coverage-istanbul-reporter', () => {
         files.forEach(file => { // eslint-disable-line max-nested-callbacks
           expect(file).not.to.contain('tslint-loader');
         });
+        done();
+      }, fileReadTimeout);
+    });
+  });
+
+  it('should output to the browser folder', done => {
+    const server = createServer({
+      coverageIstanbulReporter: {
+        reports: ['json-summary'],
+        dir: path.join(__dirname, 'fixtures', 'outputs', '%browser%')
+      }
+    });
+    server.start();
+    server.on('run_complete', () => {
+      setTimeout(() => { // Hacky workaround to make sure the file has been written
+        expect(Boolean(fs.readdirSync(OUTPUT_PATH).find(dir => dir.startsWith('PhantomJS')))).to.equal(true); // eslint-disable-line max-nested-callbacks
         done();
       }, fileReadTimeout);
     });

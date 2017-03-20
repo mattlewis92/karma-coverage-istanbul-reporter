@@ -41,7 +41,7 @@ module.exports = function (config) {
        // reports can be any that are listed here: https://github.com/istanbuljs/istanbul-reports/tree/590e6b0089f67b723a1fdf57bc7ccc080ff189d7/lib
       reports: ['html', 'lcovonly', 'text-summary'],
 
-       // base output directory
+       // base output directory. If you include %browser% in the path it will be replaced with the karma browser name
       dir: path.join(__dirname, 'coverage'),
 
        // if using webpack and pre-loaders, work around webpack breaking the source path

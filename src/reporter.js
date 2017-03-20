@@ -3,6 +3,8 @@
 const istanbul = require('istanbul-api');
 const fixWebpackSourcePaths = require('./util').fixWebpackSourcePaths;
 
+const BROWSER_PLACEHOLDER = '%browser%';
+
 function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
   baseReporterDecorator(this);
 
@@ -20,13 +22,16 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
   this.onRunComplete = function (browsers) {
     baseReporterOnRunComplete.apply(this, arguments);
 
-    const coverageIstanbulReporter = config.coverageIstanbulReporter || {};
-    const reportConfig = istanbul.config.loadObject({
-      reporting: coverageIstanbulReporter
-    });
-    const reportTypes = reportConfig.reporting.config.reports;
-
     browsers.forEach(browser => {
+      const coverageIstanbulReporter = Object.assign({}, config.coverageIstanbulReporter);
+      if (coverageIstanbulReporter.dir) {
+        coverageIstanbulReporter.dir = coverageIstanbulReporter.dir.replace(BROWSER_PLACEHOLDER, browser.name);
+      }
+      const reportConfig = istanbul.config.loadObject({
+        reporting: coverageIstanbulReporter
+      });
+      const reportTypes = reportConfig.reporting.config.reports;
+
       const coverage = browserCoverage.get(browser);
       browserCoverage.delete(browser);
 
