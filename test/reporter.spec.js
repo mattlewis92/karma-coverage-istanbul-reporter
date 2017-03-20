@@ -7,8 +7,12 @@ const karmaCoverageIstanbulReporter = require('../src/reporter');
 const OUTPUT_LOG_FILE = require('./karma.conf').OUTPUT_LOG_FILE;
 
 const expect = chai.expect;
-const OUTPUT_FILE = path.join(__dirname, '/fixtures/outputs/coverage-summary.json');
+const OUTPUT_PATH = path.join(__dirname, 'fixtures', 'outputs');
+const OUTPUT_FILE = path.join(OUTPUT_PATH, 'coverage-summary.json');
 const fileReadTimeout = 300;
+if (!fs.existsSync(OUTPUT_PATH)) {
+  fs.mkdirSync(OUTPUT_PATH);
+}
 
 function createServer(config) {
   config = config || {};
