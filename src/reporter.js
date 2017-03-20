@@ -1,8 +1,7 @@
 'use strict';
 
 const istanbul = require('istanbul-api');
-
-const isWin = process.platform.startsWith('win');
+const fixWebpackSourcePaths = require('./util').fixWebpackSourcePaths;
 
 function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
   baseReporterDecorator(this);
@@ -44,22 +43,7 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
       Object.keys(coverage).forEach(filename => {
         const fileCoverage = coverage[filename];
         if (fileCoverage.inputSourceMap && coverageIstanbulReporter.fixWebpackSourcePaths) {
-          fileCoverage.inputSourceMap.sources = fileCoverage.inputSourceMap.sources.map(source => {
-            if (source.indexOf('!') !== -1) {
-              source = source.split('!').pop();
-            }
-            if (source.indexOf('?') !== -1) {
-              source = source.split('?')[0];
-            }
-            // Workaround for https://github.com/mattlewis92/karma-coverage-istanbul-reporter/issues/9
-            if (isWin) {
-              source = source.replace(/\\/g, '/');
-            }
-            if (fileCoverage.inputSourceMap.sourceRoot && source.startsWith(fileCoverage.inputSourceMap.sourceRoot)) {
-              source = source.replace(fileCoverage.inputSourceMap.sourceRoot, '');
-            }
-            return source;
-          });
+          fileCoverage.inputSourceMap = fixWebpackSourcePaths(fileCoverage.inputSourceMap);
         }
         coverageMap.addFileCoverage(fileCoverage);
       });
