@@ -1,6 +1,6 @@
-const isWin = process.platform.startsWith('win');
-
 function fixWebpackSourcePaths(sourceMap) {
+  const isWin = process.platform.startsWith('win');
+
   return Object.assign({}, sourceMap, {
     sources: sourceMap.sources.map(source => {
       if (source.indexOf('!') !== -1) {
