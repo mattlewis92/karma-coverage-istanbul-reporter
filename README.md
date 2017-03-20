@@ -22,6 +22,8 @@ npm install karma-coverage-istanbul-reporter --save-dev
 
 ```js
 // karma.conf.js
+const path = require('path');
+
 module.exports = function (config) {
 
   config.set({
@@ -40,7 +42,7 @@ module.exports = function (config) {
       reports: ['html', 'lcovonly', 'text-summary'],
 
        // base output directory
-      dir: './coverage',
+      dir: path.join(__dirname, 'coverage'),
 
        // if using webpack and pre-loaders, work around webpack breaking the source path
       fixWebpackSourcePaths: true,
