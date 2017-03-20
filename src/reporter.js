@@ -55,6 +55,9 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
             if (isWin) {
               source = source.replace(/\\/g, '/');
             }
+            if (fileCoverage.inputSourceMap.sourceRoot && source.startsWith(fileCoverage.inputSourceMap.sourceRoot)) {
+              source = source.replace(fileCoverage.inputSourceMap.sourceRoot, '');
+            }
             return source;
           });
         }
