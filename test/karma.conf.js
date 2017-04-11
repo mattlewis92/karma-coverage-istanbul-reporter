@@ -18,7 +18,10 @@ const webpackConfig = {
       test: /src\/.+\.ts$/,
       exclude: /(node_modules|\.spec\.ts$)/,
       loader: 'istanbul-instrumenter-loader',
-      enforce: 'post'
+      enforce: 'post',
+      options: {
+        esModules: true
+      }
     }]
   },
   plugins: [

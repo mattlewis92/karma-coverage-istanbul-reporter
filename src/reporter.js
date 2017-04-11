@@ -50,7 +50,16 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
         if (fileCoverage.inputSourceMap && coverageIstanbulReporter.fixWebpackSourcePaths) {
           fileCoverage.inputSourceMap = fixWebpackSourcePaths(fileCoverage.inputSourceMap);
         }
-        coverageMap.addFileCoverage(fileCoverage);
+        if (
+          coverageIstanbulReporter.skipFilesWithNoCoverage &&
+          Object.keys(fileCoverage.statementMap).length === 0 &&
+          Object.keys(fileCoverage.fnMap).length === 0 &&
+          Object.keys(fileCoverage.branchMap).length === 0
+        ) {
+          log.debug(`File [${filename}] ignored, nothing could be mapped`);
+        } else {
+          coverageMap.addFileCoverage(fileCoverage);
+        }
       });
 
       const remappedCoverageMap = sourceMapStore.transformCoverage(coverageMap).map;
