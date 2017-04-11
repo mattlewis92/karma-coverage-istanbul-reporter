@@ -232,7 +232,7 @@ aws4@^1.2.1:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.6.0.tgz#83ef5ca860b2b32e4a0deedee8c771b9db57471e"
 
-babel-code-frame@^6.16.0, babel-code-frame@^6.20.0, babel-code-frame@^6.22.0:
+babel-code-frame@^6.16.0, babel-code-frame@^6.22.0:
   version "6.22.0"
   resolved "https://registry.yarnpkg.com/babel-code-frame/-/babel-code-frame-6.22.0.tgz#027620bee567a88c32561574e7fd0801d33118e4"
   dependencies:
@@ -889,7 +889,7 @@ debug@0.7.4:
   version "0.7.4"
   resolved "https://registry.yarnpkg.com/debug/-/debug-0.7.4.tgz#06e1ea8082c2cb14e39806e22e2f6f757f92af39"
 
-debug@2.2.0, debug@^2.1.1, debug@^2.2.0:
+debug@2.2.0, debug@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.2.0.tgz#f87057e995b1a1f6ae6a4960664137bc56f039da"
   dependencies:
@@ -901,7 +901,7 @@ debug@2.3.3:
   dependencies:
     ms "0.7.2"
 
-debug@2.6.1:
+debug@2.6.1, debug@^2.1.1:
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.1.tgz#79855090ba2c4e3115cc7d8769491d58f0491351"
   dependencies:
@@ -988,7 +988,7 @@ diff@1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/diff/-/diff-1.4.0.tgz#7f28d2eb9ee7b15a97efd89ce63dcfdaa3ccbabf"
 
-diff@^3.0.1:
+diff@^3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/diff/-/diff-3.2.0.tgz#c9ce393a4b7cbd0b058a725c93df299027868ff9"
 
@@ -3557,7 +3557,7 @@ resolve-from@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/resolve-from/-/resolve-from-2.0.0.tgz#9480ab20e94ffa1d9e80a804c7ea147611966b57"
 
-resolve@^1.1.6, resolve@^1.1.7:
+resolve@^1.1.6, resolve@^1.3.2:
   version "1.3.2"
   resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.3.2.tgz#1f0442c9e0cbb8136e87b9305f932f46c7f28235"
   dependencies:
@@ -4007,21 +4007,21 @@ tslint-loader@^3.3.0:
     rimraf "^2.4.4"
     semver "^5.3.0"
 
-tslint@^4.3.1:
-  version "4.5.1"
-  resolved "https://registry.yarnpkg.com/tslint/-/tslint-4.5.1.tgz#05356871bef23a434906734006fc188336ba824b"
+tslint@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/tslint/-/tslint-5.1.0.tgz#51a47baeeb58956fcd617bd2cf00e2ef0eea2ed9"
   dependencies:
-    babel-code-frame "^6.20.0"
+    babel-code-frame "^6.22.0"
     colors "^1.1.2"
-    diff "^3.0.1"
+    diff "^3.2.0"
     findup-sync "~0.3.0"
     glob "^7.1.1"
     optimist "~0.6.0"
-    resolve "^1.1.7"
-    tsutils "^1.1.0"
-    update-notifier "^2.0.0"
+    resolve "^1.3.2"
+    semver "^5.3.0"
+    tsutils "^1.4.0"
 
-tsutils@^1.1.0:
+tsutils@^1.4.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/tsutils/-/tsutils-1.6.0.tgz#1fd7fac2a61369ed99cd3997f0fbb437128850f2"
 
@@ -4107,7 +4107,7 @@ unzip-response@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/unzip-response/-/unzip-response-2.0.1.tgz#d2f0f737d16b0615e72a6935ed04214572d56f97"
 
-update-notifier@^2.0.0, update-notifier@^2.1.0:
+update-notifier@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/update-notifier/-/update-notifier-2.1.0.tgz#ec0c1e53536b76647a24b77cb83966d9315123d9"
   dependencies:
