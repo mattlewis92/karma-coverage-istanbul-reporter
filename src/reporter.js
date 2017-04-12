@@ -80,7 +80,6 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
             log.error(`Coverage for ${key} (${coverage}%) does not meet global threshold (${thresholds[key]}%)`);
           }
         });
-        /* istanbul ignore if */
         if (thresholdCheckFailed && results) {
           results.exitCode = 1;
         }
