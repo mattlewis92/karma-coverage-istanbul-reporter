@@ -10,9 +10,7 @@ script: npm test
 notifications:
   email: false
 
-cache:
-  directories:
-    - node_modules
+cache: yarn
 
 after_success:
 - npm run codecov
