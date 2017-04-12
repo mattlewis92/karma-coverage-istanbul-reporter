@@ -134,7 +134,6 @@ describe('karma-coverage-istanbul-reporter', () => {
   describe('coverage thresholds', () => {
     it('should not meet the thresholds', done => {
       const server = createServer({
-        singleRun: false, // Hack to make sure the test process doesn't exit with a failing error code
         coverageIstanbulReporter: {
           reports: ['json-summary'],
           dir: path.join(__dirname, 'fixtures', 'outputs'),

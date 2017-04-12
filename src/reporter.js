@@ -19,7 +19,7 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
   };
 
   const baseReporterOnRunComplete = this.onRunComplete;
-  this.onRunComplete = function (browsers) {
+  this.onRunComplete = function (browsers, results) {
     baseReporterOnRunComplete.apply(this, arguments);
 
     browsers.forEach(browser => {
@@ -81,10 +81,8 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
           }
         });
         /* istanbul ignore if */
-        if (thresholdCheckFailed && config.singleRun) {
-          process.on('exit', () => {
-            process.exit(1);
-          });
+        if (thresholdCheckFailed && results) {
+          results.exitCode = 1;
         }
       }
     });
