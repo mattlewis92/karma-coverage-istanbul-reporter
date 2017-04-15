@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.2.0"></a>
+# [1.2.0](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/compare/v1.1.0...v1.2.0) (2017-04-15)
+
+
+### Features
+
+* **thresholds:** allow per file enforcement of threshold reporting ([f6d71b3](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/commit/f6d71b3)), closes [#12](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/issues/12)
+
+
+
 <a name="1.1.0"></a>
 # [1.1.0]
 
