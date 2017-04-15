@@ -1,9 +1,22 @@
 'use strict';
 
 const istanbul = require('istanbul-api');
-const fixWebpackSourcePaths = require('./util').fixWebpackSourcePaths;
+const util = require('./util');
 
 const BROWSER_PLACEHOLDER = '%browser%';
+
+function checkThresholds(thresholds, summary) {
+  const failedTypes = [];
+
+  Object.keys(thresholds).forEach(key => {
+    const coverage = summary[key].pct;
+    if (coverage < thresholds[key]) {
+      failedTypes.push(key);
+    }
+  });
+
+  return failedTypes;
+}
 
 function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
   baseReporterDecorator(this);
@@ -48,7 +61,7 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
       Object.keys(coverage).forEach(filename => {
         const fileCoverage = coverage[filename];
         if (fileCoverage.inputSourceMap && coverageIstanbulReporter.fixWebpackSourcePaths) {
-          fileCoverage.inputSourceMap = fixWebpackSourcePaths(fileCoverage.inputSourceMap);
+          fileCoverage.inputSourceMap = util.fixWebpackSourcePaths(fileCoverage.inputSourceMap);
         }
         if (
           coverageIstanbulReporter.skipFilesWithNoCoverage &&
@@ -68,21 +81,57 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
 
       reporter.write(remappedCoverageMap);
 
-      const thresholds = coverageIstanbulReporter.thresholds;
-      if (thresholds) {
-        // Adapted from https://github.com/istanbuljs/nyc/blob/98ebdff573be91e1098bb7259776a9082a5c1ce1/index.js#L463-L478
-        let thresholdCheckFailed = false;
-        const summary = remappedCoverageMap.getCoverageSummary();
-        Object.keys(thresholds).forEach(key => {
-          const coverage = summary[key].pct;
-          if (coverage < thresholds[key]) {
-            thresholdCheckFailed = true;
-            log.error(`Coverage for ${key} (${coverage}%) does not meet global threshold (${thresholds[key]}%)`);
-          }
-        });
-        if (thresholdCheckFailed && results) {
-          results.exitCode = 1;
+      const thresholds = {
+        global: {
+          statements: 0,
+          lines: 0,
+          branches: 0,
+          functions: 0
+        },
+        each: {
+          statements: 0,
+          lines: 0,
+          branches: 0,
+          functions: 0
         }
+      };
+
+      const userThresholds = coverageIstanbulReporter.thresholds;
+
+      if (userThresholds) {
+        if (userThresholds.global || userThresholds.each) {
+          Object.assign(thresholds.global, userThresholds.global);
+          Object.assign(thresholds.each, userThresholds.each);
+        } else {
+          Object.assign(thresholds.global, userThresholds);
+        }
+      }
+
+      let thresholdCheckFailed = false;
+
+      // Adapted from https://github.com/istanbuljs/nyc/blob/98ebdff573be91e1098bb7259776a9082a5c1ce1/index.js#L463-L478
+      const globalSummary = remappedCoverageMap.getCoverageSummary();
+      const failedGlobalTypes = checkThresholds(thresholds.global, globalSummary);
+      failedGlobalTypes.forEach(type => {
+        thresholdCheckFailed = true;
+        log.error(`Coverage for ${type} (${globalSummary[type].pct}%) does not meet global threshold (${thresholds.global[type]}%)`);
+      });
+
+      remappedCoverageMap.files().forEach(file => {
+        const fileSummary = remappedCoverageMap.fileCoverageFor(file).toSummary().data;
+        const failedFileTypes = checkThresholds(thresholds.each, fileSummary);
+
+        failedFileTypes.forEach(type => {
+          thresholdCheckFailed = true;
+          if (coverageIstanbulReporter.fixWebpackSourcePaths) {
+            file = util.fixWebpackFilePath(file);
+          }
+          log.error(`Coverage for ${type} (${fileSummary[type].pct}%) in file ${file} does not meet per file threshold (${thresholds.each[type]}%)`);
+        });
+      });
+
+      if (thresholdCheckFailed && results) {
+        results.exitCode = 1;
       }
     });
   };
