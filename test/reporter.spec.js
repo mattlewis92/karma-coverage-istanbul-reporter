@@ -40,22 +40,22 @@ describe('karma-coverage-istanbul-reporter', () => {
         const summary = JSON.parse(fs.readFileSync(OUTPUT_FILE));
         expect(summary.total).to.deep.equal({
           lines: {
-            total: 6,
-            covered: 5,
+            total: 11,
+            covered: 9,
             skipped: 0,
-            pct: 83.33
+            pct: 81.82
           },
           statements: {
-            total: 6,
-            covered: 5,
+            total: 11,
+            covered: 9,
             skipped: 0,
-            pct: 83.33
+            pct: 81.82
           },
           functions: {
-            total: 3,
-            covered: 2,
+            total: 5,
+            covered: 3,
             skipped: 0,
-            pct: 66.67
+            pct: 60
           },
           branches: {
             total: 0,
@@ -149,9 +149,9 @@ describe('karma-coverage-istanbul-reporter', () => {
 
       function checkOutput() {
         const output = fs.readFileSync(OUTPUT_LOG_FILE).toString();
-        expect(output).to.contain('[ERROR] reporter.coverage-istanbul - Coverage for statements (83.33%) does not meet global threshold (100%)');
-        expect(output).to.contain('[ERROR] reporter.coverage-istanbul - Coverage for lines (83.33%) does not meet global threshold (100%)');
-        expect(output).to.contain('[ERROR] reporter.coverage-istanbul - Coverage for functions (66.67%) does not meet global threshold (100%)');
+        expect(output).to.contain('[ERROR] reporter.coverage-istanbul - Coverage for statements (81.82%) does not meet global threshold (100%)');
+        expect(output).to.contain('[ERROR] reporter.coverage-istanbul - Coverage for lines (81.82%) does not meet global threshold (100%)');
+        expect(output).to.contain('[ERROR] reporter.coverage-istanbul - Coverage for functions (60%) does not meet global threshold (100%)');
         done();
       }
 
@@ -177,9 +177,9 @@ describe('karma-coverage-istanbul-reporter', () => {
 
       function checkOutput() {
         const output = fs.readFileSync(OUTPUT_LOG_FILE).toString();
-        expect(output).not.to.contain('[ERROR] reporter.coverage-istanbul - Coverage for statements (83.33%) does not meet global threshold (50%)');
-        expect(output).not.to.contain('[ERROR] reporter.coverage-istanbul - Coverage for lines (83.33%) does not meet global threshold (50%)');
-        expect(output).not.to.contain('[ERROR] reporter.coverage-istanbul - Coverage for functions (66.67%) does not meet global threshold (50%)');
+        expect(output).not.to.contain('[ERROR] reporter.coverage-istanbul - Coverage for statements (81.82%) does not meet global threshold (50%)');
+        expect(output).not.to.contain('[ERROR] reporter.coverage-istanbul - Coverage for lines (81.82%) does not meet global threshold (50%)');
+        expect(output).not.to.contain('[ERROR] reporter.coverage-istanbul - Coverage for functions (60%) does not meet global threshold (50%)');
         done();
       }
 
