@@ -93,5 +93,20 @@ describe('util', () => {
 
       expect(fixWebpackSourcePaths(input)).to.deep.equal(output);
     });
+
+    it('should not throw when where are no sources', () => {
+      const input = {
+        file: '/Users/mattlewis/Code/open-source/karma-coverage-istanbul-reporter/test/fixtures/typescript/src/example.ts',
+        sourceRoot: ''
+      };
+
+      const output = {
+        file: '/Users/mattlewis/Code/open-source/karma-coverage-istanbul-reporter/test/fixtures/typescript/src/example.ts',
+        sourceRoot: '',
+        sources: []
+      };
+
+      expect(fixWebpackSourcePaths(input)).to.deep.equal(output);
+    });
   });
 });
