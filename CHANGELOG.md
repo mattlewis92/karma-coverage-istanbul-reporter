@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.2.1"></a>
+## [1.2.1](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/compare/v1.2.0...v1.2.1) (2017-04-30)
+
+
+### Bug Fixes
+
+* don't throw when there are no sources as part of the sourcemap ([4fc5311](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/commit/4fc5311)), closes [#15](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/issues/15)
+
+
+
 <a name="1.2.0"></a>
 # [1.2.0](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/compare/v1.1.0...v1.2.0) (2017-04-15)
 
