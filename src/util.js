@@ -19,7 +19,7 @@ function fixWebpackFilePath(filePath) {
 
 function fixWebpackSourcePaths(sourceMap) {
   return Object.assign({}, sourceMap, {
-    sources: sourceMap.sources.map(source => {
+    sources: (sourceMap.sources || []).map(source => {
       source = fixWebpackFilePath(source);
       if (sourceMap.sourceRoot && source.startsWith(sourceMap.sourceRoot)) {
         source = source.replace(sourceMap.sourceRoot, '');
