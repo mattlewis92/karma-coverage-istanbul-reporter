@@ -37,7 +37,8 @@
   },
   "homepage": "https://github.com/mattlewis92/karma-coverage-istanbul-reporter#readme",
   "dependencies": {
-    "istanbul-api": "^1.1.8"
+    "istanbul-api": "^1.1.8",
+    "minimatch": "^3.0.4"
   },
   "devDependencies": {
     "@types/chai": "^3.4.34",

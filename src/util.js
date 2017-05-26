@@ -1,3 +1,6 @@
+const path = require('path');
+const minimatch = require('minimatch');
+
 function fixWebpackFilePath(filePath) {
   const isWin = process.platform.startsWith('win');
 
@@ -29,5 +32,38 @@ function fixWebpackSourcePaths(sourceMap) {
   });
 }
 
+function isAbsolute(file) {
+  if (path.isAbsolute) {
+    return path.isAbsolute(file);
+  }
+
+  return path.resolve(file) === path.normalize(file);
+}
+
+function normalize(key, basePath) {
+  // Exclude keys will always be relative, but covObj keys can be absolute or relative
+  let excludeKey = isAbsolute(key) ? path.relative(basePath, key) : key;
+  // Also normalize for files that start with `./`, etc.
+  excludeKey = path.normalize(excludeKey);
+
+  return excludeKey;
+}
+
+function overrideThresholds(key, overrides, basePath) {
+  let thresholds = {};
+
+  // First match wins
+  Object.keys(overrides).some(pattern => {
+    if (minimatch(normalize(key, basePath), pattern, {dot: true})) {
+      thresholds = overrides[pattern];
+      return true;
+    }
+    return false;
+  });
+
+  return thresholds;
+}
+
 module.exports.fixWebpackSourcePaths = fixWebpackSourcePaths;
 module.exports.fixWebpackFilePath = fixWebpackFilePath;
+module.exports.overrideThresholds = overrideThresholds;

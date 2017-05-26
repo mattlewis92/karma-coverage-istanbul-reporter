@@ -93,7 +93,8 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
           statements: 0,
           lines: 0,
           branches: 0,
-          functions: 0
+          functions: 0,
+          overrides: {}
         }
       };
 
@@ -130,15 +131,17 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
       });
 
       remappedCoverageMap.files().forEach(file => {
+        const fileThresholds = Object.assign({}, thresholds.each, util.overrideThresholds(file, thresholds.each.overrides, config.basePath));
+        delete fileThresholds.overrides;
         const fileSummary = remappedCoverageMap.fileCoverageFor(file).toSummary().data;
-        const failedFileTypes = checkThresholds(thresholds.each, fileSummary);
+        const failedFileTypes = checkThresholds(fileThresholds, fileSummary);
 
         failedFileTypes.forEach(type => {
           thresholdCheckFailed = true;
           if (coverageIstanbulReporter.fixWebpackSourcePaths) {
             file = util.fixWebpackFilePath(file);
           }
-          logThresholdMessage(`Coverage for ${type} (${fileSummary[type].pct}%) in file ${file} does not meet per file threshold (${thresholds.each[type]}%)`);
+          logThresholdMessage(`Coverage for ${type} (${fileSummary[type].pct}%) in file ${file} does not meet per file threshold (${fileThresholds[type]}%)`);
         });
       });
 
