@@ -230,5 +230,36 @@ describe('karma-coverage-istanbul-reporter', () => {
         setTimeout(checkOutput, fileReadTimeout); // Hacky workaround to make sure the output file has been written
       });
     });
+
+    it('should emit the threshold log as a warning', done => {
+      const server = createServer({
+        coverageIstanbulReporter: {
+          reports: ['json-summary'],
+          dir: path.join(__dirname, 'fixtures', 'outputs'),
+          thresholds: {
+            emitWarning: true,
+            global: {
+              statements: 100,
+              lines: 100,
+              branches: 100,
+              functions: 100
+            }
+          }
+        }
+      });
+      server.start();
+
+      function checkOutput() {
+        const output = fs.readFileSync(OUTPUT_LOG_FILE).toString();
+        expect(output).to.contain('[WARN] reporter.coverage-istanbul - Coverage for statements (81.82%) does not meet global threshold (100%)');
+        expect(output).to.contain('[WARN] reporter.coverage-istanbul - Coverage for lines (81.82%) does not meet global threshold (100%)');
+        expect(output).to.contain('[WARN] reporter.coverage-istanbul - Coverage for functions (60%) does not meet global threshold (100%)');
+        done();
+      }
+
+      server.on('run_complete', () => {
+        setTimeout(checkOutput, fileReadTimeout); // Hacky workaround to make sure the output file has been written
+      });
+    });
   });
 });

@@ -82,6 +82,7 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
       reporter.write(remappedCoverageMap);
 
       const thresholds = {
+        emitWarning: false,
         global: {
           statements: 0,
           lines: 0,
@@ -102,8 +103,19 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
         if (userThresholds.global || userThresholds.each) {
           Object.assign(thresholds.global, userThresholds.global);
           Object.assign(thresholds.each, userThresholds.each);
+          if (userThresholds.emitWarning === true) {
+            thresholds.emitWarning = true;
+          }
         } else {
           Object.assign(thresholds.global, userThresholds);
+        }
+      }
+
+      function logThresholdMessage(message) {
+        if (thresholds.emitWarning) {
+          log.warn(message);
+        } else {
+          log.error(message);
         }
       }
 
@@ -114,7 +126,7 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
       const failedGlobalTypes = checkThresholds(thresholds.global, globalSummary);
       failedGlobalTypes.forEach(type => {
         thresholdCheckFailed = true;
-        log.error(`Coverage for ${type} (${globalSummary[type].pct}%) does not meet global threshold (${thresholds.global[type]}%)`);
+        logThresholdMessage(`Coverage for ${type} (${globalSummary[type].pct}%) does not meet global threshold (${thresholds.global[type]}%)`);
       });
 
       remappedCoverageMap.files().forEach(file => {
@@ -126,11 +138,11 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
           if (coverageIstanbulReporter.fixWebpackSourcePaths) {
             file = util.fixWebpackFilePath(file);
           }
-          log.error(`Coverage for ${type} (${fileSummary[type].pct}%) in file ${file} does not meet per file threshold (${thresholds.each[type]}%)`);
+          logThresholdMessage(`Coverage for ${type} (${fileSummary[type].pct}%) in file ${file} does not meet per file threshold (${thresholds.each[type]}%)`);
         });
       });
 
-      if (thresholdCheckFailed && results) {
+      if (thresholdCheckFailed && results && !thresholds.emitWarning) {
         results.exitCode = 1;
       }
     });
