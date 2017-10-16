@@ -40,7 +40,7 @@ module.exports = function (config) {
 
     basePath: './',
 
-    browsers: ['PhantomJS'],
+    browsers: ['ChromeHeadless'],
 
     frameworks: ['mocha'],
 
@@ -51,6 +51,10 @@ module.exports = function (config) {
     files: [
       'fixtures/typescript/test/test.spec.ts'
     ],
+
+    mime: {
+      'text/x-typescript': ['ts']
+    },
 
     preprocessors: {
       'fixtures/typescript/test/test.spec.ts': ['webpack', 'sourcemap']
