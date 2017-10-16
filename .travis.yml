@@ -16,8 +16,3 @@ cache:
 
 after_success:
 - npm run codecov
-
-addons:
-  chrome: stable
-
-dist: trusty

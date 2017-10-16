@@ -38,7 +38,6 @@
   "homepage": "https://github.com/mattlewis92/karma-coverage-istanbul-reporter#readme",
   "dependencies": {
     "istanbul-api": "^1.1.14",
-    "karma-chrome-launcher": "^2.2.0",
     "minimatch": "^3.0.4"
   },
   "devDependencies": {
@@ -52,6 +51,7 @@
     "istanbul-instrumenter-loader": "^3.0.0",
     "karma": "^1.7.0",
     "karma-mocha": "^1.3.0",
+    "karma-phantomjs-launcher": "^1.0.2",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^2.0.1",
     "mocha": "^4.0.1",
