@@ -9,6 +9,10 @@
 
 > A karma reporter that uses the latest istanbul 1.x APIs (with full sourcemap support) to report coverage.
 
+<a target='_blank' rel='nofollow' href='https://app.codesponsor.io/link/uSyax6FrP6eVdiUSuyThrNTG/mattlewis92/karma-coverage-istanbul-reporter'>
+  <img alt='Sponsor' width='888' height='68' src='https://app.codesponsor.io/embed/uSyax6FrP6eVdiUSuyThrNTG/mattlewis92/karma-coverage-istanbul-reporter.svg' />
+</a>
+
 ## About
 This is a reporter only and does not perform the actual instrumentation of your code. Babel users should use the [istanbul babel plugin](https://github.com/istanbuljs/babel-plugin-istanbul) to instrument your code and webpack + typescript users should use the [istanbul-instrumenter-loader](https://github.com/deepsweet/istanbul-instrumenter-loader) and then use this karma reporter to do the actual reporting. See the [test config](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/blob/master/test/karma.conf.js) for an e2e example of how to combine them.
 
