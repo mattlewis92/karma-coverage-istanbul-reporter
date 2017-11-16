@@ -2,6 +2,7 @@
 [![Build Status](https://travis-ci.org/mattlewis92/karma-coverage-istanbul-reporter.svg?branch=master)](https://travis-ci.org/mattlewis92/karma-coverage-istanbul-reporter)
 [![codecov](https://codecov.io/gh/mattlewis92/karma-coverage-istanbul-reporter/branch/master/graph/badge.svg)](https://codecov.io/gh/mattlewis92/karma-coverage-istanbul-reporter)
 [![npm version](https://badge.fury.io/js/karma-coverage-istanbul-reporter.svg)](http://badge.fury.io/js/karma-coverage-istanbul-reporter)
+
 [![npm](https://img.shields.io/npm/dm/karma-coverage-istanbul-reporter.svg)](http://badge.fury.io/js/karma-coverage-istanbul-reporter)
 [![GitHub issues](https://img.shields.io/github/issues/mattlewis92/karma-coverage-istanbul-reporter.svg)](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/issues)
 [![GitHub stars](https://img.shields.io/github/stars/mattlewis92/karma-coverage-istanbul-reporter.svg)](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/stargazers)
@@ -29,44 +30,35 @@ npm install karma-coverage-istanbul-reporter --save-dev
 const path = require('path');
 
 module.exports = function (config) {
-
   config.set({
-
     // ... rest of karma config
 
     // anything named karma-* is normally auto included so you probably dont need this
     plugins: ['karma-coverage-istanbul-reporter'],
-
     reporters: ['coverage-istanbul'],
-
-    // any of these options are valid: https://github.com/istanbuljs/istanbuljs/blob/aae256fb8b9a3d19414dcf069c592e88712c32c6/packages/istanbul-api/lib/config.js#L33-L39
+    // any of these options are valid:
+    // https://github.com/istanbuljs/istanbuljs/blob/aae256fb8b9a3d19414dcf069c592e88712c32c6/packages/istanbul-api/lib/config.js#L33-L39
     coverageIstanbulReporter: {
-
-       // reports can be any that are listed here: https://github.com/istanbuljs/istanbuljs/tree/aae256fb8b9a3d19414dcf069c592e88712c32c6/packages/istanbul-reports/lib
+      // reports can be any that are listed here:
+      // https://github.com/istanbuljs/istanbuljs/tree/aae256fb8b9a3d19414dcf069c592e88712c32c6/packages/istanbul-reports/lib
       reports: ['html', 'lcovonly', 'text-summary'],
-
-       // base output directory. If you include %browser% in the path it will be replaced with the karma browser name
+      // base output directory. If you include %browser% in the path it will be replaced with the karma browser name
       dir: path.join(__dirname, 'coverage'),
-
-       // if using webpack and pre-loaders, work around webpack breaking the source path
+      // if using webpack and pre-loaders, work around webpack breaking the source path
       fixWebpackSourcePaths: true,
-
       // stop istanbul outputting messages like `File [${filename}] ignored, nothing could be mapped`
       skipFilesWithNoCoverage: true,
-
-       // Most reporters accept additional config options. You can pass these through the `report-config` option
+      // Most reporters accept additional config options. You can pass these through the `report-config` option
       'report-config': {
-
-        // all options available at: https://github.com/istanbuljs/istanbuljs/blob/aae256fb8b9a3d19414dcf069c592e88712c32c6/packages/istanbul-reports/lib/html/index.js#L135-L137
+        // all options available at:
+        // https://github.com/istanbuljs/istanbuljs/blob/aae256fb8b9a3d19414dcf069c592e88712c32c6/packages/istanbul-reports/lib/html/index.js#L135-L137
         html: {
           // outputs the report in ./coverage/html
           subdir: 'html'
         }
-
       },
-
-       // enforce percentage thresholds
-       // anything under these percentages will cause karma to fail with an exit code of 1 if not running in watch mode
+      // enforce percentage thresholds
+      // anything under these percentages will cause karma to fail with an exit code of 1 if not running in watch mode
       thresholds: {
         emitWarning: false, // set to `true` to not fail the test command when thresholds are not met
         global: { // thresholds for all files
@@ -87,9 +79,7 @@ module.exports = function (config) {
           }
         }
       }
-
     }
-
   });
 
 }
