@@ -108,5 +108,39 @@ describe('util', () => {
 
       expect(fixWebpackSourcePaths(input)).to.deep.equal(output);
     });
+
+    it('should add the webpack context to the source root if not set', () => {
+      const input = {
+        file: 'example.ts',
+        sourceRoot: 'src',
+        sources: ['example.ts']
+      };
+
+      const output = {
+        file: 'example.ts',
+        sourceRoot: '/Users/mattlewis/Code/open-source/karma-coverage-istanbul-reporter/test/fixtures/typescript/src',
+        sources: ['example.ts']
+      };
+      expect(fixWebpackSourcePaths(input, {
+        context: '/Users/mattlewis/Code/open-source/karma-coverage-istanbul-reporter/test/fixtures/typescript'
+      })).to.deep.equal(output);
+    });
+
+    it('should only add the webpack context to the source root if not already set', () => {
+      const input = {
+        file: 'example.ts',
+        sourceRoot: '/Users/mattlewis/Code/open-source/karma-coverage-istanbul-reporter/test/fixtures/typescript/src',
+        sources: ['example.ts']
+      };
+
+      const output = {
+        file: 'example.ts',
+        sourceRoot: '/Users/mattlewis/Code/open-source/karma-coverage-istanbul-reporter/test/fixtures/typescript/src',
+        sources: ['example.ts']
+      };
+      expect(fixWebpackSourcePaths(input, {
+        context: '/Users/mattlewis/Code/open-source/karma-coverage-istanbul-reporter/test/fixtures/typescript'
+      })).to.deep.equal(output);
+    });
   });
 });
