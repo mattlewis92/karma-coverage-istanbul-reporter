@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.3.1"></a>
+## [1.3.1](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/compare/v1.3.0...v1.3.1) (2017-12-23)
+
+
+### Bug Fixes
+
+* prepend the webpack context to the source root if not set ([4138b80](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/commit/4138b80)), closes [#32](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/issues/32)
+
+
+
 <a name="1.3.0"></a>
 # [1.3.0](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/compare/v1.2.1...v1.3.0) (2017-05-26)
 
