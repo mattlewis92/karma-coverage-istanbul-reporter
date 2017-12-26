@@ -31,7 +31,7 @@ function fixWebpackSourcePaths(sourceMap, webpackConfig) {
     webpackConfig.context &&
     sourceMap.sourceRoot &&
     !sourceMap.sourceRoot.startsWith(webpackConfig.context) &&
-    !path.isAbsolute(sourceMap.sourceRoot)
+    !path.isAbsolute(sourceRoot)
   ) {
     sourceRoot = path.join(webpackConfig.context, sourceRoot);
   }
