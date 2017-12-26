@@ -142,5 +142,22 @@ describe('util', () => {
         context: '/Users/mattlewis/Code/open-source/karma-coverage-istanbul-reporter/test/fixtures/typescript'
       })).to.deep.equal(output);
     });
+
+    it('should not the webpack context to the source root if the source root is absolute', () => {
+      const input = {
+        file: 'example.ts',
+        sourceRoot: '/Users/mattlewis/Code/open-source/karma-coverage-istanbul-reporter/test/fixtures/typescript',
+        sources: ['example.ts']
+      };
+
+      const output = {
+        file: 'example.ts',
+        sourceRoot: '/Users/mattlewis/Code/open-source/karma-coverage-istanbul-reporter/test/fixtures/typescript',
+        sources: ['example.ts']
+      };
+      expect(fixWebpackSourcePaths(input, {
+        context: '/Users/mattlewis/Code/open-source/karma-coverage-istanbul-reporter/test/fixtures/typescript/src'
+      })).to.deep.equal(output);
+    });
   });
 });
