@@ -106,6 +106,49 @@ describe('karma-coverage-istanbul-reporter', () => {
     });
   });
 
+  it('should create a combined browser report', done => {
+    const server = createServer({
+      coverageIstanbulReporter: {
+        reports: ['json-summary'],
+        dir: path.join(__dirname, 'fixtures', 'outputs'),
+        combineBrowserReports: true
+      }
+    });
+    server.start();
+    server.on('run_complete', () => {
+      setTimeout(() => { // Hacky workaround to make sure the file has been written
+        const summary = JSON.parse(fs.readFileSync(OUTPUT_FILE));
+        expect(summary.total).to.deep.equal({
+          lines: {
+            total: 11,
+            covered: 9,
+            skipped: 0,
+            pct: 81.82
+          },
+          statements: {
+            total: 11,
+            covered: 9,
+            skipped: 0,
+            pct: 81.82
+          },
+          functions: {
+            total: 5,
+            covered: 3,
+            skipped: 0,
+            pct: 60
+          },
+          branches: {
+            total: 0,
+            covered: 0,
+            skipped: 0,
+            pct: 100
+          }
+        });
+        done();
+      }, fileReadTimeout);
+    });
+  });
+
   it('should not map files with no coverage', done => {
     const server = createServer({
       files: [
