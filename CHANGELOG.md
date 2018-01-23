@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.4.0"></a>
+# [1.4.0](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/compare/v1.3.3...v1.4.0) (2018-01-23)
+
+
+### Features
+
+* add combineBrowserReports option ([2ae16ee](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/commit/2ae16ee)), closes [#34](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/issues/34)
+
+
+
 <a name="1.3.3"></a>
 ## [1.3.3](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/compare/v1.3.1...v1.3.3) (2017-12-26)
 
