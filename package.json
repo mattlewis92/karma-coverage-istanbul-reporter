@@ -41,9 +41,9 @@
     "minimatch": "^3.0.4"
   },
   "devDependencies": {
-    "@commitlint/cli": "^5.2.6",
-    "@commitlint/config-conventional": "^5.2.3",
-    "@commitlint/prompt": "^5.2.6",
+    "@commitlint/cli": "^6.0.2",
+    "@commitlint/config-conventional": "^6.0.2",
+    "@commitlint/prompt": "^6.0.2",
     "@types/chai": "^4.0.4",
     "@types/mocha": "^2.2.33",
     "chai": "^4.0.0",
@@ -56,7 +56,7 @@
     "karma-phantomjs-launcher": "^1.0.2",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^2.0.1",
-    "mocha": "^4.0.1",
+    "mocha": "^5.0.0",
     "nyc": "^11.2.1",
     "rimraf": "^2.5.4",
     "standard-version": "^4.0.0",
