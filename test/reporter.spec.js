@@ -174,6 +174,18 @@ describe('karma-coverage-istanbul-reporter', () => {
     });
   });
 
+  it('should handle no config being set', done => {
+    const server = createServer({
+      coverageIstanbulReporter: null
+    });
+    server.start();
+    server.on('run_complete', () => {
+      setTimeout(() => { // Hacky workaround to make sure the file has been written
+        done();
+      }, fileReadTimeout);
+    });
+  });
+
   describe('coverage thresholds', () => {
     it('should not meet the thresholds', done => {
       const server = createServer({

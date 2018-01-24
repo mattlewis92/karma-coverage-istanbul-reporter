@@ -22,10 +22,10 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
   baseReporterDecorator(this);
 
   const log = logger.create('reporter.coverage-istanbul');
-
   const browserCoverage = new WeakMap();
+  const coverageConfig = Object.assign({}, config.coverageIstanbulReporter);
 
-  function addCoverage(coverageIstanbulReporter, coverageMap, browser) {
+  function addCoverage(coverageMap, browser) {
     const coverage = browserCoverage.get(browser);
     browserCoverage.delete(browser);
 
@@ -35,11 +35,11 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
 
     Object.keys(coverage).forEach(filename => {
       const fileCoverage = coverage[filename];
-      if (fileCoverage.inputSourceMap && coverageIstanbulReporter.fixWebpackSourcePaths) {
+      if (fileCoverage.inputSourceMap && coverageConfig.fixWebpackSourcePaths) {
         fileCoverage.inputSourceMap = util.fixWebpackSourcePaths(fileCoverage.inputSourceMap, config.webpack);
       }
       if (
-        coverageIstanbulReporter.skipFilesWithNoCoverage &&
+        coverageConfig.skipFilesWithNoCoverage &&
         Object.keys(fileCoverage.statementMap).length === 0 &&
         Object.keys(fileCoverage.fnMap).length === 0 &&
         Object.keys(fileCoverage.branchMap).length === 0
@@ -60,14 +60,12 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
   }
 
   function createReport(browserOrBrowsers, results) {
-    const coverageIstanbulReporter = Object.assign({}, config.coverageIstanbulReporter);
-
-    if (!coverageIstanbulReporter.combineBrowserReports && coverageIstanbulReporter.dir) {
-      coverageIstanbulReporter.dir = coverageIstanbulReporter.dir.replace(BROWSER_PLACEHOLDER, browserOrBrowsers.name);
+    if (!coverageConfig.combineBrowserReports && coverageConfig.dir) {
+      coverageConfig.dir = coverageConfig.dir.replace(BROWSER_PLACEHOLDER, browserOrBrowsers.name);
     }
 
     const reportConfig = istanbul.config.loadObject({
-      reporting: coverageIstanbulReporter
+      reporting: coverageConfig
     });
     const reportTypes = reportConfig.reporting.config.reports;
 
@@ -77,10 +75,10 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
     const coverageMap = istanbul.libCoverage.createCoverageMap();
     const sourceMapStore = istanbul.libSourceMaps.createSourceMapStore();
 
-    if (coverageIstanbulReporter.combineBrowserReports) {
-      browserOrBrowsers.forEach(addCoverage.bind(null, coverageIstanbulReporter, coverageMap));
+    if (coverageConfig.combineBrowserReports) {
+      browserOrBrowsers.forEach(browser => addCoverage(coverageMap, browser));
     } else {
-      addCoverage(coverageIstanbulReporter, coverageMap, browserOrBrowsers);
+      addCoverage(coverageMap, browserOrBrowsers);
     }
 
     const remappedCoverageMap = sourceMapStore.transformCoverage(coverageMap).map;
@@ -88,7 +86,7 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
     log.debug('Writing coverage reports:', reportTypes);
     reporter.write(remappedCoverageMap);
 
-    const userThresholds = coverageIstanbulReporter.thresholds;
+    const userThresholds = coverageConfig.thresholds;
 
     const thresholds = {
       emitWarning: false,
@@ -137,7 +135,7 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
 
       failedFileTypes.forEach(type => {
         thresholdCheckFailed = true;
-        if (coverageIstanbulReporter.fixWebpackSourcePaths) {
+        if (coverageConfig.fixWebpackSourcePaths) {
           file = util.fixWebpackFilePath(file);
         }
         logThresholdMessage(thresholds, `Coverage for ${type} (${fileSummary[type].pct}%) in file ${file} does not meet per file threshold (${fileThresholds[type]}%)`);
@@ -159,7 +157,7 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
   this.onRunComplete = function (browsers, results) {
     baseReporterOnRunComplete.apply(this, arguments);
 
-    if (config.coverageIstanbulReporter.combineBrowserReports) {
+    if (coverageConfig.combineBrowserReports) {
       createReport(browsers, results);
     } else {
       browsers.forEach(browser => {
