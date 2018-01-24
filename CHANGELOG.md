@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.4.1"></a>
+## [1.4.1](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/compare/v1.4.0...v1.4.1) (2018-01-24)
+
+
+### Bug Fixes
+
+* handle no config being set ([5483e2b](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/commit/5483e2b)), closes [#36](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/issues/36)
+
+
+
 <a name="1.4.0"></a>
 # [1.4.0](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/compare/v1.3.3...v1.4.0) (2018-01-23)
 
