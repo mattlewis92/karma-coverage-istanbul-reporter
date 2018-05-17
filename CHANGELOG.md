@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.0.0"></a>
+# [2.0.0](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/compare/v1.4.3...v2.0.0) (2018-05-17)
+
+
+### Features
+
+* drop support for node 4 ([26ad3af](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/commit/26ad3af))
+
+
+### BREAKING CHANGES
+
+* node 4 is no longer supported
+
+
+
 <a name="1.4.3"></a>
 ## [1.4.3](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/compare/v1.4.2...v1.4.3) (2018-05-17)
 
