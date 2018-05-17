@@ -4,6 +4,7 @@ const webpack = require('webpack');
 const OUTPUT_LOG_FILE = path.join(__dirname, 'fixtures', 'outputs', 'karma-output.log');
 
 const webpackConfig = {
+  mode: 'development',
   module: {
     rules: [{
       test: /\.ts$/,
@@ -60,7 +61,7 @@ module.exports = function (config) {
 
     webpackMiddleware: {
       stats: 'errors-only',
-      noInfo: true
+      logLevel: 'silent'
     },
 
     coverageIstanbulReporter: {
