@@ -65,6 +65,7 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
       {};
 
     const reportConfig = istanbul.config.loadObject({
+      verbose: coverageConfig.verbose === true,
       reporting: Object.assign(
         {},
         coverageConfig,
