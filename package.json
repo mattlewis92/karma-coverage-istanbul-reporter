@@ -68,7 +68,7 @@
     "tslint-loader": "^3.6.0",
     "typescript": "^2.8.3",
     "webpack": "^4.8.3",
-    "xo": "^0.20.0"
+    "xo": "^0.21.0"
   },
   "nyc": {
     "reporter": [
@@ -85,11 +85,7 @@
     ],
     "rules": {
       "prefer-destructuring": 0,
-      "prefer-rest-params": 0,
-      "space-before-function-paren": 0,
-      "object-curly-spacing": 0,
-      "indent": 0,
-      "operator-linebreak": 0
+      "prefer-rest-params": 0
     },
     "prettier": true
   },
