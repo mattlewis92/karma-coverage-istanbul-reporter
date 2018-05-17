@@ -5,9 +5,9 @@ const chai = require('chai');
 const karma = require('karma');
 const rimraf = require('rimraf');
 const karmaCoverageIstanbulReporter = require('../src/reporter');
-const OUTPUT_LOG_FILE = require('./karma.conf').OUTPUT_LOG_FILE;
+const { OUTPUT_LOG_FILE } = require('./karma.conf');
 
-const expect = chai.expect;
+const { expect } = chai;
 const OUTPUT_PATH = path.join(__dirname, 'fixtures', 'outputs');
 const OUTPUT_FILE = path.join(OUTPUT_PATH, 'coverage-summary.json');
 const fileReadTimeout = 300;

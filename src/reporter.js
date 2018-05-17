@@ -1,5 +1,3 @@
-'use strict';
-
 const istanbul = require('istanbul-api');
 const util = require('./util');
 
@@ -187,6 +185,7 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
 
   const baseReporterOnRunComplete = this.onRunComplete;
   this.onRunComplete = function(browsers, results) {
+    // eslint-disable-next-line prefer-rest-params
     baseReporterOnRunComplete.apply(this, arguments);
 
     if (coverageConfig.combineBrowserReports) {

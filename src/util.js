@@ -1,5 +1,3 @@
-'use strict';
-
 const path = require('path');
 const minimatch = require('minimatch');
 
@@ -23,7 +21,7 @@ function fixWebpackFilePath(filePath) {
 }
 
 function fixWebpackSourcePaths(sourceMap, webpackConfig) {
-  let sourceRoot = sourceMap.sourceRoot;
+  let { sourceRoot } = sourceMap;
   // Fix for https://github.com/mattlewis92/karma-coverage-istanbul-reporter/issues/32
   // The sourceRoot is relative to the project directory and not an absolute path, so add the webpack context to it if set
   if (

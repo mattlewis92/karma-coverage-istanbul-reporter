@@ -1,5 +1,5 @@
-const expect = require('chai').expect;
-const fixWebpackSourcePaths = require('../src/util').fixWebpackSourcePaths;
+const { expect } = require('chai');
+const { fixWebpackSourcePaths } = require('../src/util');
 
 const originalPlatform = process.platform;
 
