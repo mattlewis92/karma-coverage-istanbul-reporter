@@ -1,8 +1,7 @@
 /* tslint:disable */
-import {Bam} from './another-file';
+import { Bam } from './another-file';
 
 export class Foo {
-
   bam: Bam = new Bam();
 
   bar(): boolean {
@@ -12,5 +11,4 @@ export class Foo {
   baz(): boolean {
     return false; // not covered
   }
-
 }

@@ -17,7 +17,8 @@
     "commit": "git-cz",
     "prerelease": "npm test",
     "release": "standard-version && git push --follow-tags origin master",
-    "postrelease": "npm publish"
+    "postrelease": "npm publish",
+    "precommit": "pretty-quick --staged"
   },
   "repository": {
     "type": "git",
@@ -58,6 +59,8 @@
     "karma-webpack": "^3.0.0",
     "mocha": "^5.1.1",
     "nyc": "^11.8.0",
+    "prettier": "^1.12.1",
+    "pretty-quick": "^1.4.1",
     "rimraf": "^2.5.4",
     "standard-version": "^4.3.0",
     "ts-loader": "^4.3.0",
@@ -83,7 +86,8 @@
     "rules": {
       "prefer-destructuring": 0,
       "prefer-rest-params": 0
-    }
+    },
+    "prettier": true
   },
   "config": {
     "commitizen": {
