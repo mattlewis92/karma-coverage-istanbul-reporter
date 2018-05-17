@@ -1,6 +1,6 @@
 {
   "name": "karma-coverage-istanbul-reporter",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": "A karma reporter that uses the latest istanbul 1.x APIs (with full sourcemap support) to report coverage.",
   "main": "src/reporter.js",
   "files": [
