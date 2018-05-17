@@ -83,7 +83,12 @@
       "node",
       "mocha"
     ],
-    "prettier": true
+    "rules": {
+      "space-before-function-paren": 0,
+      "object-curly-spacing": 0,
+      "operator-linebreak": 0,
+      "indent": 0
+    }
   },
   "config": {
     "commitizen": {
