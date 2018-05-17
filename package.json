@@ -90,8 +90,7 @@
       "object-curly-spacing": 0,
       "indent": 0,
       "operator-linebreak": 0
-    },
-    "prettier": true
+    }
   },
   "config": {
     "commitizen": {
