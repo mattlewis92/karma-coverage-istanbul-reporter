@@ -19,6 +19,15 @@ function checkThresholds(thresholds, summary) {
 function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
   baseReporterDecorator(this);
 
+  // Copied from https://github.com/angular/angular-cli/pull/9529/files
+  // Fixes https://github.com/mattlewis92/karma-coverage-istanbul-reporter/issues/44
+  const reporterName = 'coverage-istanbul';
+  const hasTrailingReporters =
+    config.reporters.slice(-1).pop() !== reporterName;
+  if (hasTrailingReporters) {
+    this.writeCommonMsg = () => {};
+  }
+
   const log = logger.create('reporter.coverage-istanbul');
   const browserCoverage = new WeakMap();
   const coverageConfig = Object.assign({}, config.coverageIstanbulReporter);
