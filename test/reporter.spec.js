@@ -10,6 +10,7 @@ const { OUTPUT_LOG_FILE } = require('./karma.conf');
 const { expect } = chai;
 const OUTPUT_PATH = path.join(__dirname, 'fixtures', 'outputs');
 const OUTPUT_FILE = path.join(OUTPUT_PATH, 'coverage-summary.json');
+const OUTPUT_DETAILS_FILE = path.join(OUTPUT_PATH, 'coverage-final.json');
 const fileReadTimeout = 300;
 
 function createServer(config) {
@@ -164,33 +165,63 @@ describe('karma-coverage-istanbul-reporter', () => {
     });
   });
 
-  it('should not map files with no coverage', done => {
-    const server = createServer({
+  describe('skipFilesWithNoCoverage', () => {
+    const createConfig = skipFilesWithNoCoverage => ({
       files: ['fixtures/typescript/src/ignored-file.ts'],
       preprocessors: {
         'fixtures/typescript/src/ignored-file.ts': ['webpack', 'sourcemap']
       },
       logLevel: 'DEBUG',
       coverageIstanbulReporter: {
-        reports: ['json-summary'],
+        reports: ['json'],
         dir: path.join(__dirname, 'fixtures', 'outputs'),
-        skipFilesWithNoCoverage: true
+        skipFilesWithNoCoverage
       }
     });
-    server.start();
-    server.on('run_complete', () => {
-      setTimeout(() => {
-        // Hacky workaround to make sure the file has been written
-        const output = fs.readFileSync(OUTPUT_LOG_FILE).toString();
-        expect(
-          Boolean(
-            output.match(
-              /\[DEBUG\] reporter\.coverage-istanbul - File \[\/.+test\/fixtures\/typescript\/src\/ignored-file\.ts\] ignored, nothing could be mapped/
+    it('should map files with no coverage', done => {
+      const server = createServer(createConfig(false));
+      server.start();
+      server.on('run_complete', () => {
+        setTimeout(() => {
+          const data = JSON.parse(fs.readFileSync(OUTPUT_DETAILS_FILE));
+
+          // Extract coverage data for ignored-file.ts
+          const keys = Object.keys(data);
+          expect(keys).to.have.lengthOf(
+            1,
+            'Expected data for "ignored-file.ts"'
+          );
+          const fileCoverage = data[keys[0]];
+
+          // All maps should be empty
+          expect(fileCoverage.statementMap).to.deep.equal({});
+          expect(fileCoverage.fnMap).to.deep.equal({});
+          expect(fileCoverage.branchMap).to.deep.equal({});
+
+          done();
+        }, fileReadTimeout);
+      });
+    });
+    it('should not map files with no coverage', done => {
+      const server = createServer(createConfig(true));
+      server.start();
+      server.on('run_complete', () => {
+        setTimeout(() => {
+          const data = JSON.parse(fs.readFileSync(OUTPUT_DETAILS_FILE));
+          expect(data).to.deep.equal({});
+
+          // Hacky workaround to make sure the file has been written
+          const output = fs.readFileSync(OUTPUT_LOG_FILE).toString();
+          expect(
+            Boolean(
+              output.match(
+                /\[DEBUG\] reporter\.coverage-istanbul - File \[\/.+test\/fixtures\/typescript\/src\/ignored-file\.ts\] ignored, nothing could be mapped/
+              )
             )
-          )
-        ).not.to.equal(false);
-        done();
-      }, fileReadTimeout);
+          ).to.equal(true);
+          done();
+        }, fileReadTimeout);
+      });
     });
   });
 
