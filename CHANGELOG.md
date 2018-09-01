@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.0.3"></a>
+## [2.0.3](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/compare/v2.0.2...v2.0.3) (2018-09-01)
+
+
+### Bug Fixes
+
+* update istanbuljs to 2.x ([a835e22](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/commit/a835e22)), closes [#52](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/issues/52)
+* use correct source file path separators on windows ([938e93c](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/commit/938e93c)), closes [#47](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/issues/47)
+
+
+
 <a name="2.0.2"></a>
 ## [2.0.2](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/compare/v2.0.1...v2.0.2) (2018-08-24)
 
