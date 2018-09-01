@@ -2,8 +2,6 @@ const path = require('path');
 const minimatch = require('minimatch');
 
 function fixWebpackFilePath(filePath) {
-  const isWin = process.platform.startsWith('win');
-
   if (filePath.indexOf('!') !== -1) {
     filePath = filePath.split('!').pop();
   }
@@ -12,11 +10,15 @@ function fixWebpackFilePath(filePath) {
     filePath = filePath.split('?')[0];
   }
 
+  return filePath;
+}
+
+function fixPathSeparators(filePath) {
+  const isWin = process.platform.startsWith('win');
   // Workaround for https://github.com/mattlewis92/karma-coverage-istanbul-reporter/issues/9
   if (isWin) {
-    filePath = filePath.replace(/\\/g, '/');
+    return filePath.replace(/\//g, '\\');
   }
-
   return filePath;
 }
 
@@ -34,12 +36,15 @@ function fixWebpackSourcePaths(sourceMap, webpackConfig) {
     sourceRoot = path.join(webpackConfig.context, sourceRoot);
   }
 
+  sourceRoot = fixPathSeparators(sourceRoot);
+
   return Object.assign({}, sourceMap, {
-    sourceRoot: sourceRoot, // eslint-disable-line object-shorthand
+    file: fixPathSeparators(sourceMap.file),
+    sourceRoot,
     sources: (sourceMap.sources || []).map(source => {
       source = fixWebpackFilePath(source);
-      if (sourceMap.sourceRoot && source.startsWith(sourceMap.sourceRoot)) {
-        source = source.replace(sourceMap.sourceRoot, '');
+      if (sourceRoot && source.startsWith(sourceRoot)) {
+        source = source.replace(sourceRoot, '');
       }
       return source;
     })

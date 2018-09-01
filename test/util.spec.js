@@ -62,7 +62,7 @@ describe('util', () => {
       const input = {
         file:
           'C:/development/git/coverage-istanbul-reporter-path/client/modules/app/app.component.ts',
-        sourceRoot: '',
+        sourceRoot: 'C:/development/git/coverage-istanbul-reporter-path/',
         sources: [
           'C:\\development\\git\\coverage-istanbul-reporter-path\\client\\modules\\app\\app.component.ts'
         ] // eslint-disable-line unicorn/escape-case
@@ -70,11 +70,9 @@ describe('util', () => {
 
       const output = {
         file:
-          'C:/development/git/coverage-istanbul-reporter-path/client/modules/app/app.component.ts',
-        sourceRoot: '',
-        sources: [
-          'C:/development/git/coverage-istanbul-reporter-path/client/modules/app/app.component.ts'
-        ]
+          'C:\\development\\git\\coverage-istanbul-reporter-path\\client\\modules\\app\\app.component.ts',
+        sourceRoot: 'C:\\development\\git\\coverage-istanbul-reporter-path\\',
+        sources: ['client\\modules\\app\\app.component.ts']
       };
 
       expect(fixWebpackSourcePaths(input)).to.deep.equal(output);
@@ -82,14 +80,14 @@ describe('util', () => {
 
     it('should not correct path separators on non windows systems', () => {
       const input = {
-        file: '\\foo\\bar',
-        sourceRoot: '',
+        file: '/foo/bar',
+        sourceRoot: '/foo',
         sources: ['\\foo\\bar']
       };
 
       const output = {
-        file: '\\foo\\bar',
-        sourceRoot: '',
+        file: '/foo/bar',
+        sourceRoot: '/foo',
         sources: ['\\foo\\bar']
       };
 
