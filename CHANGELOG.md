@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.0.4"></a>
+## [2.0.4](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/compare/v2.0.3...v2.0.4) (2018-09-08)
+
+
+### Bug Fixes
+
+* handle source roots being undefined on windows ([8eba911](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/commit/8eba911)), closes [#55](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/issues/55)
+
+
+
 <a name="2.0.3"></a>
 ## [2.0.3](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/compare/v2.0.2...v2.0.3) (2018-09-01)
 
