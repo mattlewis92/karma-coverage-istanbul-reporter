@@ -78,6 +78,29 @@ describe('util', () => {
       expect(fixWebpackSourcePaths(input)).to.deep.equal(output);
     });
 
+    it('should handle undefined source roots', () => {
+      Object.defineProperty(process, 'platform', {
+        value: 'win32'
+      });
+      const input = {
+        file:
+          'C:/development/git/coverage-istanbul-reporter-path/client/modules/app/app.component.ts',
+        sources: [
+          'C:\\development\\git\\coverage-istanbul-reporter-path\\client\\modules\\app\\app.component.ts'
+        ] // eslint-disable-line unicorn/escape-case
+      };
+
+      const output = {
+        file:
+          'C:\\development\\git\\coverage-istanbul-reporter-path\\client\\modules\\app\\app.component.ts',
+        sources: [
+          'C:\\development\\git\\coverage-istanbul-reporter-path\\client\\modules\\app\\app.component.ts'
+        ]
+      };
+
+      expect(fixWebpackSourcePaths(input)).to.deep.equal(output);
+    });
+
     it('should not correct path separators on non windows systems', () => {
       const input = {
         file: '/foo/bar',

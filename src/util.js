@@ -16,7 +16,7 @@ function fixWebpackFilePath(filePath) {
 function fixPathSeparators(filePath) {
   const isWin = process.platform.startsWith('win');
   // Workaround for https://github.com/mattlewis92/karma-coverage-istanbul-reporter/issues/9
-  if (isWin) {
+  if (isWin && filePath) {
     return filePath.replace(/\//g, '\\');
   }
   return filePath;
@@ -38,9 +38,8 @@ function fixWebpackSourcePaths(sourceMap, webpackConfig) {
 
   sourceRoot = fixPathSeparators(sourceRoot);
 
-  return Object.assign({}, sourceMap, {
+  const result = Object.assign({}, sourceMap, {
     file: fixPathSeparators(sourceMap.file),
-    sourceRoot,
     sources: (sourceMap.sources || []).map(source => {
       source = fixWebpackFilePath(source);
       if (sourceRoot && source.startsWith(sourceRoot)) {
@@ -49,6 +48,12 @@ function fixWebpackSourcePaths(sourceMap, webpackConfig) {
       return source;
     })
   });
+
+  if (sourceRoot) {
+    result.sourceRoot = sourceRoot;
+  }
+
+  return result;
 }
 
 function isAbsolute(file) {
