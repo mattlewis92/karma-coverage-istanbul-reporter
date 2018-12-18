@@ -103,7 +103,7 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
 
     if (!coverageConfig.skipFilesWithNoCoverage) {
       coverageMap.files().forEach(path => {
-        if (!(path in remappedCoverageMap)) {
+        if (remappedCoverageMap.files().indexOf(path) === -1) {
           // Re-add empty coverage record
           remappedCoverageMap.addFileCoverage(path);
         }
