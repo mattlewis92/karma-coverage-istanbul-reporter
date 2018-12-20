@@ -24,16 +24,18 @@ function fixPathSeparators(filePath) {
 
 function fixWebpackSourcePaths(sourceMap, webpackConfig) {
   let { sourceRoot } = sourceMap;
+  // As per https://webpack.js.org/configuration/entry-context/#context, if no context is specified, the current
+  // directory that the process is running from should be assumed instead
+  const context = (webpackConfig && webpackConfig.context) || process.cwd();
   // Fix for https://github.com/mattlewis92/karma-coverage-istanbul-reporter/issues/32
   // The sourceRoot is relative to the project directory and not an absolute path, so add the webpack context to it if set
   if (
-    webpackConfig &&
-    webpackConfig.context &&
-    sourceMap.sourceRoot &&
-    !sourceMap.sourceRoot.startsWith(webpackConfig.context) &&
+    context &&
+    sourceRoot &&
+    !sourceRoot.startsWith(context) &&
     !path.isAbsolute(sourceRoot)
   ) {
-    sourceRoot = path.join(webpackConfig.context, sourceRoot);
+    sourceRoot = path.join(context, sourceRoot);
   }
 
   sourceRoot = fixPathSeparators(sourceRoot);

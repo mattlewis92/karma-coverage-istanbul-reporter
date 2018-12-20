@@ -59,6 +59,7 @@ describe('util', () => {
       Object.defineProperty(process, 'platform', {
         value: 'win32'
       });
+      process.cwd = () => 'C:/development/git/coverage-istanbul-reporter-path';
       const input = {
         file:
           'C:/development/git/coverage-istanbul-reporter-path/client/modules/app/app.component.ts',
@@ -118,6 +119,7 @@ describe('util', () => {
     });
 
     it('should remove the sourceRoot from the source path if present', () => {
+      process.cwd = () => 'C:/development/git/coverage-istanbul-reporter-path';
       const input = {
         file:
           'C:/development/git/coverage-istanbul-reporter-path/client/modules/app/app.component.ts',
@@ -175,6 +177,29 @@ describe('util', () => {
       ).to.deep.equal(output);
     });
 
+    it('should use the current directory if webpack context is not set', () => {
+      Object.defineProperty(process, 'platform', {
+        value: 'win32'
+      });
+      process.cwd = () =>
+        'C:\\Users\\mattlewis\\Code\\open-source\\karma-coverage-istanbul-reporter\\test\\fixtures\\typescript';
+      const input = {
+        file: 'example.ts',
+        sourceRoot: 'src/',
+        sources: [
+          'C:\\Users\\mattlewis\\Code\\open-source\\karma-coverage-istanbul-reporter\\test\\fixtures\\typescript\\src\\example.ts'
+        ]
+      };
+
+      const output = {
+        file: 'example.ts',
+        sourceRoot:
+          'C:\\Users\\mattlewis\\Code\\open-source\\karma-coverage-istanbul-reporter\\test\\fixtures\\typescript\\src\\',
+        sources: ['example.ts']
+      };
+      expect(fixWebpackSourcePaths(input, undefined)).to.deep.equal(output);
+    });
+
     it('should only add the webpack context to the source root if not already set', () => {
       const input = {
         file: 'example.ts',
@@ -197,7 +222,7 @@ describe('util', () => {
       ).to.deep.equal(output);
     });
 
-    it('should not the webpack context to the source root if the source root is absolute', () => {
+    it('should not add the webpack context to the source root if the source root is absolute', () => {
       const input = {
         file: 'example.ts',
         sourceRoot:
