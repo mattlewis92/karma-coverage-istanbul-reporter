@@ -90,6 +90,7 @@ function overrideThresholds(key, overrides, basePath) {
   return thresholds;
 }
 
+module.exports.fixPathSeparators = fixPathSeparators;
 module.exports.fixWebpackSourcePaths = fixWebpackSourcePaths;
 module.exports.fixWebpackFilePath = fixWebpackFilePath;
 module.exports.overrideThresholds = overrideThresholds;
