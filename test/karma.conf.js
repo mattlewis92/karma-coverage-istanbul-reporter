@@ -24,7 +24,7 @@ const webpackConfig = {
         exclude: /node_modules/
       },
       {
-        test: /src\/.+\.ts$/,
+        test: /\.ts$/,
         exclude: /(node_modules|\.spec\.ts$)/,
         loader: 'istanbul-instrumenter-loader',
         enforce: 'post',
