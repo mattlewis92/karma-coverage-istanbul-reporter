@@ -65,7 +65,7 @@ describe('util', () => {
         sourceRoot: 'C:/development/git/coverage-istanbul-reporter-path/',
         sources: [
           'C:\\development\\git\\coverage-istanbul-reporter-path\\client\\modules\\app\\app.component.ts'
-        ] // eslint-disable-line unicorn/escape-case
+        ]
       };
 
       const output = {
@@ -87,7 +87,7 @@ describe('util', () => {
           'C:/development/git/coverage-istanbul-reporter-path/client/modules/app/app.component.ts',
         sources: [
           'C:\\development\\git\\coverage-istanbul-reporter-path\\client\\modules\\app\\app.component.ts'
-        ] // eslint-disable-line unicorn/escape-case
+        ]
       };
 
       const output = {
