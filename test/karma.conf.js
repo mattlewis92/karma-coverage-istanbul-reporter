@@ -71,6 +71,7 @@ module.exports = function(config) {
     },
 
     coverageIstanbulReporter: {
+      fixWebpackSourcePaths: true,
       reports: ['json-summary'],
       dir: path.join(__dirname, 'fixtures', 'outputs')
     },
