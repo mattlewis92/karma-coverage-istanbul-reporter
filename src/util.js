@@ -19,6 +19,7 @@ function fixPathSeparators(filePath) {
   if (isWin && filePath) {
     return filePath.replace(/\//g, '\\');
   }
+
   return filePath;
 }
 
@@ -45,6 +46,7 @@ function fixWebpackSourcePaths(sourceMap, webpackConfig) {
       if (sourceRoot && source.startsWith(sourceRoot)) {
         source = source.replace(sourceRoot, '');
       }
+
       return source;
     })
   });
@@ -82,6 +84,7 @@ function overrideThresholds(key, overrides, basePath) {
       thresholds = overrides[pattern];
       return true;
     }
+
     return false;
   });
 

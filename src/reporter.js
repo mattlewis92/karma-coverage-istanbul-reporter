@@ -48,6 +48,7 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
           config.webpack
         );
       }
+
       if (
         coverageConfig.skipFilesWithNoCoverage &&
         Object.keys(fileCoverage.statementMap).length === 0 &&
@@ -179,6 +180,7 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
         if (coverageConfig.fixWebpackSourcePaths) {
           file = util.fixWebpackFilePath(file);
         }
+
         logThresholdMessage(
           thresholds,
           `Coverage for ${type} (${
