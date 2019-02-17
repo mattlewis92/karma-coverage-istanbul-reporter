@@ -103,8 +103,13 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
       .map;
 
     if (!coverageConfig.skipFilesWithNoCoverage) {
+      // On Windows, istanbul returns files with mixed forward/backslashes in them
+      const fixedFilePaths = {};
+      remappedCoverageMap.files().forEach(path => {
+        fixedFilePaths[util.fixPathSeparators(path)] = true;
+      });
       coverageMap.files().forEach(path => {
-        if (!(path in remappedCoverageMap)) {
+        if (!(util.fixPathSeparators(path) in fixedFilePaths)) {
           // Re-add empty coverage record
           remappedCoverageMap.addFileCoverage(path);
         }
