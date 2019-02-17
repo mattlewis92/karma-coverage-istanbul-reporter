@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.0.5"></a>
+## [2.0.5](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/compare/v2.0.4...v2.0.5) (2019-02-17)
+
+
+### Bug Fixes
+
+* correctly strip source file prefixes when no webpack.context is defined ([3c48bf8](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/commit/3c48bf8))
+* don't double-report files with mixed slashes in their names on windows ([38087c2](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/commit/38087c2))
+
+
+
 <a name="2.0.4"></a>
 ## [2.0.4](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/compare/v2.0.3...v2.0.4) (2018-09-08)
 
