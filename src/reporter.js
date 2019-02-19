@@ -123,6 +123,8 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
 
     const thresholds = {
       emitWarning: false,
+      logFailedThresholds: true,
+      logGlobalFailedThreshold: true,
       global: {
         statements: 0,
         lines: 0,
@@ -145,6 +147,14 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
         if (userThresholds.emitWarning === true) {
           thresholds.emitWarning = true;
         }
+
+        if (userThresholds.logFailedThresholds === false) {
+          thresholds.logFailedThresholds = false;
+        }
+
+        if (userThresholds.logGlobalFailedThreshold === false) {
+          thresholds.logGlobalFailedThreshold = false;
+        }
       } else {
         Object.assign(thresholds.global, userThresholds);
       }
@@ -153,52 +163,60 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
     let thresholdCheckFailed = false;
 
     // Adapted from https://github.com/istanbuljs/nyc/blob/98ebdff573be91e1098bb7259776a9082a5c1ce1/index.js#L463-L478
-    const globalSummary = remappedCoverageMap.getCoverageSummary();
-    const failedGlobalTypes = checkThresholds(thresholds.global, globalSummary);
-    failedGlobalTypes.forEach(type => {
-      thresholdCheckFailed = true;
-      logThresholdMessage(
-        thresholds,
-        `Coverage for ${type} (${
-          globalSummary[type].pct
-        }%) does not meet global threshold (${thresholds.global[type]}%)`
+    if (thresholds.logGlobalFailedThreshold) {
+      const globalSummary = remappedCoverageMap.getCoverageSummary();
+      const failedGlobalTypes = checkThresholds(
+        thresholds.global,
+        globalSummary
       );
-    });
-
-    remappedCoverageMap.files().forEach(file => {
-      const fileThresholds = Object.assign(
-        {},
-        thresholds.each,
-        util.overrideThresholds(
-          file,
-          thresholds.each.overrides,
-          config.basePath
-        )
-      );
-      delete fileThresholds.overrides;
-      const fileSummary = remappedCoverageMap.fileCoverageFor(file).toSummary()
-        .data;
-      const failedFileTypes = checkThresholds(fileThresholds, fileSummary);
-
-      failedFileTypes.forEach(type => {
+      failedGlobalTypes.forEach(type => {
         thresholdCheckFailed = true;
-        if (coverageConfig.fixWebpackSourcePaths) {
-          file = util.fixWebpackFilePath(file);
-        }
-
         logThresholdMessage(
           thresholds,
           `Coverage for ${type} (${
-            fileSummary[type].pct
-          }%) in file ${file} does not meet per file threshold (${
-            fileThresholds[type]
-          }%)`
+            globalSummary[type].pct
+          }%) does not meet global threshold (${thresholds.global[type]}%)`
         );
       });
-    });
+    }
 
-    if (thresholdCheckFailed && results && !thresholds.emitWarning) {
-      results.exitCode = 1;
+    if (thresholds.logFailedThresholds) {
+      remappedCoverageMap.files().forEach(file => {
+        const fileThresholds = Object.assign(
+          {},
+          thresholds.each,
+          util.overrideThresholds(
+            file,
+            thresholds.each.overrides,
+            config.basePath
+          )
+        );
+        delete fileThresholds.overrides;
+        const fileSummary = remappedCoverageMap
+          .fileCoverageFor(file)
+          .toSummary().data;
+        const failedFileTypes = checkThresholds(fileThresholds, fileSummary);
+
+        failedFileTypes.forEach(type => {
+          thresholdCheckFailed = true;
+          if (coverageConfig.fixWebpackSourcePaths) {
+            file = util.fixWebpackFilePath(file);
+          }
+
+          logThresholdMessage(
+            thresholds,
+            `Coverage for ${type} (${
+              fileSummary[type].pct
+            }%) in file ${file} does not meet per file threshold (${
+              fileThresholds[type]
+            }%)`
+          );
+        });
+      });
+
+      if (thresholdCheckFailed && results && !thresholds.emitWarning) {
+        results.exitCode = 1;
+      }
     }
   }
 
