@@ -4,11 +4,13 @@
 [![codecov](https://codecov.io/gh/mattlewis92/karma-coverage-istanbul-reporter/branch/master/graph/badge.svg)](https://codecov.io/gh/mattlewis92/karma-coverage-istanbul-reporter)
 [![npm version](https://badge.fury.io/js/karma-coverage-istanbul-reporter.svg)](http://badge.fury.io/js/karma-coverage-istanbul-reporter)
 [![npm](https://img.shields.io/npm/dm/karma-coverage-istanbul-reporter.svg)](http://badge.fury.io/js/karma-coverage-istanbul-reporter)
-[![GitHub issues](https://img.shields.io/github/issues/mattlewis92/karma-coverage-istanbul-reporter.svg)](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/issues)
-[![GitHub stars](https://img.shields.io/github/stars/mattlewis92/karma-coverage-istanbul-reporter.svg)](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/stargazers)
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/mattlewis92/karma-coverage-istanbul-reporter/master/LICENSE)
+[![Twitter Follow](https://img.shields.io/twitter/follow/mattlewis92_.svg)](https://twitter.com/mattlewis92_)
 
 > A karma reporter that uses the latest istanbul 1.x APIs (with full sourcemap support) to report coverage.
+
+<a href="https://www.patreon.com/mattlewis92">
+	<img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
+</a>
 
 ## About
 
