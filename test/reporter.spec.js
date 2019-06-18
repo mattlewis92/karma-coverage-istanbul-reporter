@@ -78,6 +78,29 @@ describe('karma-coverage-istanbul-reporter', () => {
     });
   });
 
+  it('should generate a temporary istanbul coverage file', done => {
+    const tempDirectory = path.join(__dirname, 'fixtures', '.nyc_output');
+    const server = createServer({
+      coverageIstanbulReporter: {
+        tempDirectory,
+        dir: path.join(__dirname, 'fixtures', 'outputs')
+      }
+    });
+    server.start();
+    server.on('run_complete', () => {
+      setTimeout(() => {
+        // Hacky workaround to make sure the file has been written
+        const tempDirFiles = fs.readdirSync(tempDirectory);
+        const temporaryCoverageReport = JSON.parse(
+          fs.readFileSync(path.join(tempDirectory, tempDirFiles[0]))
+        );
+        expect(tempDirFiles).length(1);
+        expect(temporaryCoverageReport).to.be.a('object');
+        done();
+      }, fileReadTimeout);
+    });
+  });
+
   it('should fix webpack loader source paths', done => {
     const server = createServer({
       coverageIstanbulReporter: {
