@@ -1,3 +1,5 @@
+const path = require('path');
+const fs = require('fs-extra');
 const istanbul = require('istanbul-api');
 const util = require('./util');
 
@@ -86,7 +88,6 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
       reporting: Object.assign({}, coverageConfig, reportConfigOverride)
     });
     const reportTypes = reportConfig.reporting.config.reports;
-
     const reporter = istanbul.createReporter(reportConfig);
     reporter.addAll(reportTypes);
 
@@ -165,6 +166,8 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
       );
     });
 
+    const temporaryFileDateResult = {};
+
     remappedCoverageMap.files().forEach(file => {
       const fileThresholds = Object.assign(
         {},
@@ -176,8 +179,12 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
         )
       );
       delete fileThresholds.overrides;
-      const fileSummary = remappedCoverageMap.fileCoverageFor(file).toSummary()
-        .data;
+      const coverageFile = remappedCoverageMap.fileCoverageFor(file);
+
+      const fileSummary = coverageFile.toSummary().data;
+
+      temporaryFileDateResult[coverageFile.data.path] = coverageFile.data;
+
       const failedFileTypes = checkThresholds(fileThresholds, fileSummary);
 
       failedFileTypes.forEach(type => {
@@ -196,6 +203,26 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
         );
       });
     });
+
+    if (
+      Object.keys(temporaryFileDateResult).length > 0 &&
+      coverageConfig.tempDirectory
+    ) {
+      const tempFolder = coverageConfig.tempDirectory;
+
+      if (fs.existsSync(tempFolder) === true) {
+        fs.removeSync(tempFolder);
+      }
+
+      fs.mkdirSync(tempFolder, { recursive: true });
+
+      fs.writeFileSync(
+        path.join(tempFolder, `${Date.now()}.json`),
+        JSON.stringify(temporaryFileDateResult)
+      );
+    } else {
+      log.warn('No coverage data found');
+    }
 
     if (thresholdCheckFailed && results && !thresholds.emitWarning) {
       results.exitCode = 1;

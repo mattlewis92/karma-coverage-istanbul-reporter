@@ -1,7 +1,8 @@
 /* eslint-disable max-nested-callbacks */
-const fs = require('fs');
 const path = require('path');
 const chai = require('chai');
+const fs = require('fs-extra');
+const spies = require('chai-spies');
 const karma = require('karma');
 const rimraf = require('rimraf');
 const karmaCoverageIstanbulReporter = require('../src/reporter');
@@ -12,6 +13,8 @@ const OUTPUT_PATH = path.join(__dirname, 'fixtures', 'outputs');
 const OUTPUT_FILE = path.join(OUTPUT_PATH, 'coverage-summary.json');
 const OUTPUT_DETAILS_FILE = path.join(OUTPUT_PATH, 'coverage-final.json');
 const fileReadTimeout = 300;
+
+chai.use(spies);
 
 function createServer(config) {
   config = config || {};
@@ -73,6 +76,60 @@ describe('karma-coverage-istanbul-reporter', () => {
             pct: 100
           }
         });
+        done();
+      }, fileReadTimeout);
+    });
+  });
+
+  it('should generate a temporary istanbul coverage file', done => {
+    const tempDirectory = path.join(__dirname, 'fixtures', '.nyc_output');
+    chai.spy.on(fs, ['writeFileSync']);
+    const server = createServer({
+      coverageIstanbulReporter: {
+        tempDirectory,
+        dir: path.join(__dirname, 'fixtures', 'outputs')
+      }
+    });
+    server.start();
+    server.on('run_complete', () => {
+      setTimeout(() => {
+        // Hacky workaround to make sure the file has been written
+        const tempDirFiles = fs.readdirSync(tempDirectory);
+        const temporaryCoverageReport = JSON.parse(
+          fs.readFileSync(path.join(tempDirectory, tempDirFiles[0]))
+        );
+        expect(tempDirFiles).length(1);
+        expect(temporaryCoverageReport).to.be.a('object');
+        expect(fs.writeFileSync).to.have.been.called();
+        chai.spy.restore(fs, ['writeFileSync']);
+        done();
+      }, fileReadTimeout);
+    });
+  });
+
+  it('should recreate the temp directory', done => {
+    const tempDirectory = path.join(__dirname, 'fixtures', '.nyc_output');
+    fs.removeSync(tempDirectory);
+    fs.mkdirSync(tempDirectory);
+
+    chai.spy.on(fs, ['existsSync', 'removeSync', 'mkdirSync']);
+
+    const server = createServer({
+      coverageIstanbulReporter: {
+        tempDirectory,
+        dir: path.join(__dirname, 'fixtures', 'outputs')
+      }
+    });
+    server.start();
+    server.on('run_complete', () => {
+      setTimeout(() => {
+        // Hacky workaround to make sure the file has been written
+        expect(fs.existsSync).to.have.be.called.with(tempDirectory);
+        expect(fs.removeSync).to.have.be.called.with(tempDirectory);
+        expect(fs.mkdirSync).to.have.be.called.with(tempDirectory, {
+          recursive: true
+        });
+        chai.spy.restore(fs, ['existsSync', 'removeSync', 'mkdirSync']);
         done();
       }, fileReadTimeout);
     });
