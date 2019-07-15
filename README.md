@@ -89,7 +89,13 @@ module.exports = function(config) {
         }
       },
 
-      verbose: true // output config used by istanbul for debugging
+      verbose: true, // output config used by istanbul for debugging
+
+      // `instrumentation` is used to configure Istanbul API package.
+      instrumentation: {
+        // To include `node_modules` code in the report.
+        'default-excludes': false
+      }
     }
   });
 };
@@ -97,24 +103,24 @@ module.exports = function(config) {
 
 ### List of reporters and options
 
-* [clover](https://github.com/istanbuljs/istanbuljs/blob/aae256fb8b9a3d19414dcf069c592e88712c32c6/packages/istanbul-reports/lib/clover/index.js#L8-L9)
-* [cobertura](https://github.com/istanbuljs/istanbuljs/blob/aae256fb8b9a3d19414dcf069c592e88712c32c6/packages/istanbul-reports/lib/cobertura/index.js#L9-L10)
-* [html](https://github.com/istanbuljs/istanbuljs/blob/aae256fb8b9a3d19414dcf069c592e88712c32c6/packages/istanbul-reports/lib/html/index.js#L135-L137)
-* [json-summary](https://github.com/istanbuljs/istanbuljs/blob/aae256fb8b9a3d19414dcf069c592e88712c32c6/packages/istanbul-reports/lib/json-summary/index.js#L8)
-* [json](https://github.com/istanbuljs/istanbuljs/blob/aae256fb8b9a3d19414dcf069c592e88712c32c6/packages/istanbul-reports/lib/json/index.js#L8)
-* lcov
-* [lcovonly](https://github.com/istanbuljs/istanbuljs/blob/aae256fb8b9a3d19414dcf069c592e88712c32c6/packages/istanbul-reports/lib/lcovonly/index.js#L8)
-* none
-* [teamcity](https://github.com/istanbuljs/istanbuljs/blob/aae256fb8b9a3d19414dcf069c592e88712c32c6/packages/istanbul-reports/lib/teamcity/index.js#L9-L10)
-* [text-lcov](https://github.com/istanbuljs/istanbuljs/blob/aae256fb8b9a3d19414dcf069c592e88712c32c6/packages/istanbul-reports/lib/text-lcov/index.js#L9)
-* [text-summary](https://github.com/istanbuljs/istanbuljs/blob/aae256fb8b9a3d19414dcf069c592e88712c32c6/packages/istanbul-reports/lib/text-summary/index.js#L9)
-* [text](https://github.com/istanbuljs/istanbuljs/blob/aae256fb8b9a3d19414dcf069c592e88712c32c6/packages/istanbul-reports/lib/text/index.js#L159-L160)
+- [clover](https://github.com/istanbuljs/istanbuljs/blob/aae256fb8b9a3d19414dcf069c592e88712c32c6/packages/istanbul-reports/lib/clover/index.js#L8-L9)
+- [cobertura](https://github.com/istanbuljs/istanbuljs/blob/aae256fb8b9a3d19414dcf069c592e88712c32c6/packages/istanbul-reports/lib/cobertura/index.js#L9-L10)
+- [html](https://github.com/istanbuljs/istanbuljs/blob/aae256fb8b9a3d19414dcf069c592e88712c32c6/packages/istanbul-reports/lib/html/index.js#L135-L137)
+- [json-summary](https://github.com/istanbuljs/istanbuljs/blob/aae256fb8b9a3d19414dcf069c592e88712c32c6/packages/istanbul-reports/lib/json-summary/index.js#L8)
+- [json](https://github.com/istanbuljs/istanbuljs/blob/aae256fb8b9a3d19414dcf069c592e88712c32c6/packages/istanbul-reports/lib/json/index.js#L8)
+- lcov
+- [lcovonly](https://github.com/istanbuljs/istanbuljs/blob/aae256fb8b9a3d19414dcf069c592e88712c32c6/packages/istanbul-reports/lib/lcovonly/index.js#L8)
+- none
+- [teamcity](https://github.com/istanbuljs/istanbuljs/blob/aae256fb8b9a3d19414dcf069c592e88712c32c6/packages/istanbul-reports/lib/teamcity/index.js#L9-L10)
+- [text-lcov](https://github.com/istanbuljs/istanbuljs/blob/aae256fb8b9a3d19414dcf069c592e88712c32c6/packages/istanbul-reports/lib/text-lcov/index.js#L9)
+- [text-summary](https://github.com/istanbuljs/istanbuljs/blob/aae256fb8b9a3d19414dcf069c592e88712c32c6/packages/istanbul-reports/lib/text-summary/index.js#L9)
+- [text](https://github.com/istanbuljs/istanbuljs/blob/aae256fb8b9a3d19414dcf069c592e88712c32c6/packages/istanbul-reports/lib/text/index.js#L159-L160)
 
 ## Credits
 
-* [Original karma-coverage source](https://github.com/karma-runner/karma-coverage/blob/master/lib/reporter.js)
-* [Example of using the new reporter API](https://github.com/facebook/jest/blob/master/scripts/mapCoverage.js)
-* [Karma remap istanbul](https://github.com/marcules/karma-remap-istanbul)
+- [Original karma-coverage source](https://github.com/karma-runner/karma-coverage/blob/master/lib/reporter.js)
+- [Example of using the new reporter API](https://github.com/facebook/jest/blob/master/scripts/mapCoverage.js)
+- [Karma remap istanbul](https://github.com/marcules/karma-remap-istanbul)
 
 ## License
 
