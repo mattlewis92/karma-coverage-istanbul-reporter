@@ -99,8 +99,10 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
       addCoverage(coverageMap, browserOrBrowsers);
     }
 
-    const remappedCoverageMap = sourceMapStore.transformCoverage(coverageMap)
-      .map;
+    const {
+      sourceFinder,
+      map: remappedCoverageMap
+    } = sourceMapStore.transformCoverage(coverageMap);
 
     if (!coverageConfig.skipFilesWithNoCoverage) {
       // On Windows, istanbul returns files with mixed forward/backslashes in them
@@ -117,7 +119,7 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
     }
 
     log.debug('Writing coverage reports:', reportTypes);
-    reporter.write(remappedCoverageMap);
+    reporter.write(remappedCoverageMap, { sourceFinder });
 
     const userThresholds = coverageConfig.thresholds;
 
