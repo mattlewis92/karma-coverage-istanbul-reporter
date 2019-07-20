@@ -159,9 +159,7 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
       thresholdCheckFailed = true;
       logThresholdMessage(
         thresholds,
-        `Coverage for ${type} (${
-          globalSummary[type].pct
-        }%) does not meet global threshold (${thresholds.global[type]}%)`
+        `Coverage for ${type} (${globalSummary[type].pct}%) does not meet global threshold (${thresholds.global[type]}%)`
       );
     });
 
@@ -188,11 +186,7 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
 
         logThresholdMessage(
           thresholds,
-          `Coverage for ${type} (${
-            fileSummary[type].pct
-          }%) in file ${file} does not meet per file threshold (${
-            fileThresholds[type]
-          }%)`
+          `Coverage for ${type} (${fileSummary[type].pct}%) in file ${file} does not meet per file threshold (${fileThresholds[type]}%)`
         );
       });
     });
