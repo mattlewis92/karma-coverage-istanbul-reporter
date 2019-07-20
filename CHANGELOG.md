@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.0.6"></a>
+## [2.0.6](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/compare/v2.0.5...v2.0.6) (2019-07-20)
+
+
+### Bug Fixes
+
+* get source code from sourceMapStore on write report ([619d90d](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/commit/619d90d)), closes [#72](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/issues/72)
+
+
+
 <a name="2.0.5"></a>
 ## [2.0.5](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/compare/v2.0.4...v2.0.5) (2019-02-17)
 
