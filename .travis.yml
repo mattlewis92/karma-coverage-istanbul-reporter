@@ -1,9 +1,10 @@
 language: node_js
 
 node_js:
-- '10'
-- '8'
-- '6'
+  - '12'
+  - '10'
+  - '8'
+  - '6'
 
 script: npm test
 
@@ -12,7 +13,7 @@ notifications:
 
 cache:
   directories:
-  - node_modules
+    - node_modules
 
 after_success:
-- npm run codecov
+  - npm run codecov
