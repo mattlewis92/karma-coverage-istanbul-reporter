@@ -89,7 +89,13 @@ module.exports = function(config) {
         }
       },
 
-      verbose: true // output config used by istanbul for debugging
+      verbose: true, // output config used by istanbul for debugging
+
+      // `instrumentation` is used to configure Istanbul API package.
+      instrumentation: {
+        // To include `node_modules` code in the report.
+        'default-excludes': false
+      }
     }
   });
 };
