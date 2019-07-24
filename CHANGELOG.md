@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.1.0"></a>
+# [2.1.0](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/compare/v2.0.6...v2.1.0) (2019-07-24)
+
+
+### Features
+
+* **config:** support istanbul-api instrumentation configuration ([c4f7a9c](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/commit/c4f7a9c)), closes [#73](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/issues/73)
+
+
+
 <a name="2.0.6"></a>
 ## [2.0.6](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/compare/v2.0.5...v2.0.6) (2019-07-20)
 
