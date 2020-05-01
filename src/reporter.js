@@ -1,4 +1,8 @@
-const istanbul = require('istanbul-api');
+const path = require('path');
+const libCoverage = require('istanbul-lib-coverage');
+const libSourceMaps = require('istanbul-lib-source-maps');
+const libReport = require('istanbul-lib-report');
+const libReports = require('istanbul-reports');
 const util = require('./util');
 
 const BROWSER_PLACEHOLDER = '%browser%';
@@ -70,7 +74,7 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
     }
   }
 
-  function createReport(browserOrBrowsers, results) {
+  async function createReport(browserOrBrowsers, results) {
     const reportConfigOverride =
       !coverageConfig.combineBrowserReports && coverageConfig.dir
         ? {
@@ -81,18 +85,16 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
           }
         : {};
 
-    const reportConfig = istanbul.config.loadObject({
+    const reportConfig = {
       instrumentation: Object.assign({}, coverageConfig.instrumentation),
       verbose: coverageConfig.verbose === true,
-      reporting: Object.assign({}, coverageConfig, reportConfigOverride)
-    });
-    const reportTypes = reportConfig.reporting.config.reports;
+      reporting: Object.assign({}, coverageConfig, reportConfigOverride),
+      summarizer: coverageConfig.summarizer
+    };
+    const reportTypes = reportConfig.reporting.reports;
 
-    const reporter = istanbul.createReporter(reportConfig);
-    reporter.addAll(reportTypes);
-
-    const coverageMap = istanbul.libCoverage.createCoverageMap();
-    const sourceMapStore = istanbul.libSourceMaps.createSourceMapStore();
+    const coverageMap = libCoverage.createCoverageMap();
+    const sourceMapStore = libSourceMaps.createSourceMapStore();
 
     if (coverageConfig.combineBrowserReports) {
       browserOrBrowsers.forEach(browser => addCoverage(coverageMap, browser));
@@ -100,10 +102,10 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
       addCoverage(coverageMap, browserOrBrowsers);
     }
 
-    const {
-      sourceFinder,
-      map: remappedCoverageMap
-    } = sourceMapStore.transformCoverage(coverageMap);
+    const remappedCoverageMap = await sourceMapStore.transformCoverage(
+      coverageMap
+    );
+    const { sourceFinder } = sourceMapStore;
 
     if (!coverageConfig.skipFilesWithNoCoverage) {
       // On Windows, istanbul returns files with mixed forward/backslashes in them
@@ -120,7 +122,7 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
     }
 
     log.debug('Writing coverage reports:', reportTypes);
-    reporter.write(remappedCoverageMap, { sourceFinder });
+    writeReports(reportConfig, remappedCoverageMap, sourceFinder);
 
     const userThresholds = coverageConfig.thresholds;
 
@@ -199,6 +201,24 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
     }
   }
 
+  function writeReports(config, coverageMap, sourceFinder) {
+    const dir = path.resolve(config.reporting.dir);
+    const contextOpts = {
+      dir,
+      watermarks: config.reporting.watermarks || [],
+      sourceFinder,
+      coverageMap
+    };
+    const context = libReport.createContext(contextOpts);
+
+    const tree = context.getTree(config.summarizer);
+    config.reporting.reports.forEach(name => {
+      const reportConfig = (config.reporting['report-config'] || [])[name];
+      const report = libReports.create(name, reportConfig);
+      tree.visit(report, context);
+    });
+  }
+
   this.onBrowserComplete = function(browser, result) {
     if (result && result.coverage) {
       browserCoverage.set(browser, result.coverage);
@@ -206,16 +226,16 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
   };
 
   const baseReporterOnRunComplete = this.onRunComplete;
-  this.onRunComplete = function(browsers, results) {
+  this.onRunComplete = async function(browsers, results) {
     // eslint-disable-next-line prefer-rest-params
     baseReporterOnRunComplete.apply(this, arguments);
 
     if (coverageConfig.combineBrowserReports) {
-      createReport(browsers, results);
+      await createReport(browsers, results);
     } else {
-      browsers.forEach(browser => {
-        createReport(browser, results);
-      });
+      await Promise.all(
+        browsers.map(browser => createReport(browser, results))
+      );
     }
   };
 }

@@ -34,9 +34,8 @@ module.exports = function(config) {
 
     reporters: ['coverage-istanbul'],
 
-    // any of these options are valid: https://github.com/istanbuljs/istanbuljs/blob/aae256fb8b9a3d19414dcf069c592e88712c32c6/packages/istanbul-api/lib/config.js#L33-L39
     coverageIstanbulReporter: {
-      // reports can be any that are listed here: https://github.com/istanbuljs/istanbuljs/tree/aae256fb8b9a3d19414dcf069c592e88712c32c6/packages/istanbul-reports/lib
+      // reports can be any that are listed here: https://github.com/istanbuljs/istanbuljs/tree/73c25ce79f91010d1ff073aa6ff3fd01114f90db/packages/istanbul-reports/lib
       reports: ['html', 'lcovonly', 'text-summary'],
 
       // base output directory. If you include %browser% in the path it will be replaced with the karma browser name
@@ -49,12 +48,12 @@ module.exports = function(config) {
       // if using webpack and pre-loaders, work around webpack breaking the source path
       fixWebpackSourcePaths: true,
 
-      // Omit files with no statements, no functions and no branches from the report
+      // Omit files with no statements, no functions and no branches covered from the report
       skipFilesWithNoCoverage: true,
 
       // Most reporters accept additional config options. You can pass these through the `report-config` option
       'report-config': {
-        // all options available at: https://github.com/istanbuljs/istanbuljs/blob/aae256fb8b9a3d19414dcf069c592e88712c32c6/packages/istanbul-reports/lib/html/index.js#L135-L137
+        // all options available at: https://github.com/istanbuljs/istanbuljs/blob/73c25ce79f91010d1ff073aa6ff3fd01114f90db/packages/istanbul-reports/lib/html/index.js#L257-L261
         html: {
           // outputs the report in ./coverage/html
           subdir: 'html'
@@ -86,13 +85,7 @@ module.exports = function(config) {
         }
       },
 
-      verbose: true, // output config used by istanbul for debugging
-
-      // `instrumentation` is used to configure Istanbul API package.
-      instrumentation: {
-        // To include `node_modules` code in the report.
-        'default-excludes': false
-      }
+      verbose: true // output config used by istanbul for debugging
     }
   });
 };
@@ -100,18 +93,19 @@ module.exports = function(config) {
 
 ### List of reporters and options
 
-- [clover](https://github.com/istanbuljs/istanbuljs/blob/aae256fb8b9a3d19414dcf069c592e88712c32c6/packages/istanbul-reports/lib/clover/index.js#L8-L9)
-- [cobertura](https://github.com/istanbuljs/istanbuljs/blob/aae256fb8b9a3d19414dcf069c592e88712c32c6/packages/istanbul-reports/lib/cobertura/index.js#L9-L10)
-- [html](https://github.com/istanbuljs/istanbuljs/blob/aae256fb8b9a3d19414dcf069c592e88712c32c6/packages/istanbul-reports/lib/html/index.js#L135-L137)
-- [json-summary](https://github.com/istanbuljs/istanbuljs/blob/aae256fb8b9a3d19414dcf069c592e88712c32c6/packages/istanbul-reports/lib/json-summary/index.js#L8)
-- [json](https://github.com/istanbuljs/istanbuljs/blob/aae256fb8b9a3d19414dcf069c592e88712c32c6/packages/istanbul-reports/lib/json/index.js#L8)
-- lcov
-- [lcovonly](https://github.com/istanbuljs/istanbuljs/blob/aae256fb8b9a3d19414dcf069c592e88712c32c6/packages/istanbul-reports/lib/lcovonly/index.js#L8)
+- [clover](https://github.com/istanbuljs/istanbuljs/blob/73c25ce79f91010d1ff073aa6ff3fd01114f90db/packages/istanbul-reports/lib/clover/index.js#L14-L15)
+- [cobertura](https://github.com/istanbuljs/istanbuljs/blob/73c25ce79f91010d1ff073aa6ff3fd01114f90db/packages/istanbul-reports/lib/cobertura/index.js#L16-L17)
+- [html-spa](https://github.com/istanbuljs/istanbuljs/blob/73c25ce79f91010d1ff073aa6ff3fd01114f90db/packages/istanbul-reports/lib/html-spa/index.js#L47-L61)
+- [html](https://github.com/istanbuljs/istanbuljs/blob/73c25ce79f91010d1ff073aa6ff3fd01114f90db/packages/istanbul-reports/lib/html/index.js#L257-L261)
+- [json-summary](https://github.com/istanbuljs/istanbuljs/blob/73c25ce79f91010d1ff073aa6ff3fd01114f90db/packages/istanbul-reports/lib/json-summary/index.js#L12)
+- [json](https://github.com/istanbuljs/istanbuljs/blob/73c25ce79f91010d1ff073aa6ff3fd01114f90db/packages/istanbul-reports/lib/json/index.js#L12)
+- [lcov](https://github.com/istanbuljs/istanbuljs/blob/73c25ce79f91010d1ff073aa6ff3fd01114f90db/packages/istanbul-reports/lib/lcov/index.js#L13)
+- [lcovonly](https://github.com/istanbuljs/istanbuljs/blob/73c25ce79f91010d1ff073aa6ff3fd01114f90db/packages/istanbul-reports/lib/lcovonly/index.js#L11-L12)
 - none
-- [teamcity](https://github.com/istanbuljs/istanbuljs/blob/aae256fb8b9a3d19414dcf069c592e88712c32c6/packages/istanbul-reports/lib/teamcity/index.js#L9-L10)
-- [text-lcov](https://github.com/istanbuljs/istanbuljs/blob/aae256fb8b9a3d19414dcf069c592e88712c32c6/packages/istanbul-reports/lib/text-lcov/index.js#L9)
-- [text-summary](https://github.com/istanbuljs/istanbuljs/blob/aae256fb8b9a3d19414dcf069c592e88712c32c6/packages/istanbul-reports/lib/text-summary/index.js#L9)
-- [text](https://github.com/istanbuljs/istanbuljs/blob/aae256fb8b9a3d19414dcf069c592e88712c32c6/packages/istanbul-reports/lib/text/index.js#L159-L160)
+- [teamcity](https://github.com/istanbuljs/istanbuljs/blob/73c25ce79f91010d1ff073aa6ff3fd01114f90db/packages/istanbul-reports/lib/teamcity/index.js#L13-L14)
+- [text-lcov](https://github.com/istanbuljs/istanbuljs/blob/73c25ce79f91010d1ff073aa6ff3fd01114f90db/packages/istanbul-reports/lib/text-lcov/index.js#L11)
+- [text-summary](https://github.com/istanbuljs/istanbuljs/blob/73c25ce79f91010d1ff073aa6ff3fd01114f90db/packages/istanbul-reports/lib/text-summary/index.js#L13)
+- [text](https://github.com/istanbuljs/istanbuljs/blob/73c25ce79f91010d1ff073aa6ff3fd01114f90db/packages/istanbul-reports/lib/text/index.js#L231-L237)
 
 ## Credits
 
