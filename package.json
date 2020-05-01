@@ -113,5 +113,8 @@
       "commit-msg": "commitlint -e",
       "pre-commit": "pretty-quick --staged"
     }
+  },
+  "mocha": {
+    "timeout": 10000
   }
 }
