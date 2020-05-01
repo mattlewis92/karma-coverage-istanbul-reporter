@@ -26,7 +26,7 @@ const webpackConfig = {
       {
         test: /\.ts$/,
         exclude: /(node_modules|\.spec\.ts$)/,
-        loader: 'istanbul-instrumenter-loader',
+        loader: 'coverage-istanbul-loader',
         enforce: 'post',
         options: {
           esModules: true,
