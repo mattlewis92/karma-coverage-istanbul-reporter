@@ -16,12 +16,12 @@ const webpackConfig = {
         test: /\.ts$/,
         loader: 'tslint-loader',
         exclude: /node_modules/,
-        enforce: 'pre'
+        enforce: 'pre',
       },
       {
         test: /\.ts$/,
         loader: 'ts-loader?silent=true',
-        exclude: /node_modules/
+        exclude: /node_modules/,
       },
       {
         test: /\.ts$/,
@@ -29,23 +29,23 @@ const webpackConfig = {
         loader: 'istanbul-instrumenter-loader',
         enforce: 'post',
         options: {
-          esModules: true
-        }
-      }
-    ]
+          esModules: true,
+        },
+      },
+    ],
   },
   plugins: [
     new webpack.SourceMapDevToolPlugin({
       filename: null,
-      test: /\.(ts|js)($|\?)/i
-    })
+      test: /\.(ts|js)($|\?)/i,
+    }),
   ],
   resolve: {
-    extensions: ['.ts', '.js']
-  }
+    extensions: ['.ts', '.js'],
+  },
 };
 
-module.exports = function(config) {
+module.exports = function (config) {
   config.set({
     basePath: './',
 
@@ -60,28 +60,28 @@ module.exports = function(config) {
     files: ['fixtures/typescript/test/test.spec.ts'],
 
     preprocessors: {
-      'fixtures/typescript/test/test.spec.ts': ['webpack', 'sourcemap']
+      'fixtures/typescript/test/test.spec.ts': ['webpack', 'sourcemap'],
     },
 
     webpack: webpackConfig,
 
     webpackMiddleware: {
       stats: 'errors-only',
-      logLevel: 'silent'
+      logLevel: 'silent',
     },
 
     coverageIstanbulReporter: {
       fixWebpackSourcePaths: true,
       reports: ['json-summary'],
-      dir: path.join(__dirname, 'fixtures', 'outputs')
+      dir: path.join(__dirname, 'fixtures', 'outputs'),
     },
 
     loggers: [
       {
         type: 'file',
-        filename: OUTPUT_LOG_FILE
-      }
-    ]
+        filename: OUTPUT_LOG_FILE,
+      },
+    ],
   });
 };
 

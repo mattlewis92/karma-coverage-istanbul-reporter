@@ -83,6 +83,7 @@
   },
   "xo": {
     "space": true,
+    "prettier": true,
     "envs": [
       "node",
       "mocha"

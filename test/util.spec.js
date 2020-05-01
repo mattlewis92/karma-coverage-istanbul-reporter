@@ -7,7 +7,7 @@ describe('util', () => {
   describe('fixWebpackSourcePaths', () => {
     beforeEach(() => {
       Object.defineProperty(process, 'platform', {
-        value: originalPlatform
+        value: originalPlatform,
       });
     });
 
@@ -17,8 +17,8 @@ describe('util', () => {
           '/Users/mattlewis/Code/open-source/karma-coverage-istanbul-reporter/test/fixtures/typescript/src/example.ts',
         sourceRoot: '',
         sources: [
-          '/Users/mattlewis/Code/open-source/karma-coverage-istanbul-reporter/node_modules/tslint-loader/index.js!/Users/mattlewis/Code/open-source/karma-coverage-istanbul-reporter/test/fixtures/typescript/src/example.ts'
-        ]
+          '/Users/mattlewis/Code/open-source/karma-coverage-istanbul-reporter/node_modules/tslint-loader/index.js!/Users/mattlewis/Code/open-source/karma-coverage-istanbul-reporter/test/fixtures/typescript/src/example.ts',
+        ],
       };
 
       const output = {
@@ -26,8 +26,8 @@ describe('util', () => {
           '/Users/mattlewis/Code/open-source/karma-coverage-istanbul-reporter/test/fixtures/typescript/src/example.ts',
         sourceRoot: '',
         sources: [
-          '/Users/mattlewis/Code/open-source/karma-coverage-istanbul-reporter/test/fixtures/typescript/src/example.ts'
-        ]
+          '/Users/mattlewis/Code/open-source/karma-coverage-istanbul-reporter/test/fixtures/typescript/src/example.ts',
+        ],
       };
 
       expect(fixWebpackSourcePaths(input)).to.deep.equal(output);
@@ -39,8 +39,8 @@ describe('util', () => {
           '/Users/juzaun/Development/sagely-sign-web/src/components/background.vue',
         sourceRoot: '',
         sources: [
-          '/Users/juzaun/Development/sagely-sign-web/src/components/background.vue?1e26b24c'
-        ]
+          '/Users/juzaun/Development/sagely-sign-web/src/components/background.vue?1e26b24c',
+        ],
       };
 
       const output = {
@@ -48,8 +48,8 @@ describe('util', () => {
           '/Users/juzaun/Development/sagely-sign-web/src/components/background.vue',
         sourceRoot: '',
         sources: [
-          '/Users/juzaun/Development/sagely-sign-web/src/components/background.vue'
-        ]
+          '/Users/juzaun/Development/sagely-sign-web/src/components/background.vue',
+        ],
       };
 
       expect(fixWebpackSourcePaths(input)).to.deep.equal(output);
@@ -57,7 +57,7 @@ describe('util', () => {
 
     it('should use the correct path separators on windows', () => {
       Object.defineProperty(process, 'platform', {
-        value: 'win32'
+        value: 'win32',
       });
       process.cwd = () => 'C:/development/git/coverage-istanbul-reporter-path';
       const input = {
@@ -65,15 +65,15 @@ describe('util', () => {
           'C:/development/git/coverage-istanbul-reporter-path/client/modules/app/app.component.ts',
         sourceRoot: 'C:/development/git/coverage-istanbul-reporter-path/',
         sources: [
-          'C:\\development\\git\\coverage-istanbul-reporter-path\\client\\modules\\app\\app.component.ts'
-        ]
+          'C:\\development\\git\\coverage-istanbul-reporter-path\\client\\modules\\app\\app.component.ts',
+        ],
       };
 
       const output = {
         file:
           'C:\\development\\git\\coverage-istanbul-reporter-path\\client\\modules\\app\\app.component.ts',
         sourceRoot: 'C:\\development\\git\\coverage-istanbul-reporter-path\\',
-        sources: ['client\\modules\\app\\app.component.ts']
+        sources: ['client\\modules\\app\\app.component.ts'],
       };
 
       expect(fixWebpackSourcePaths(input)).to.deep.equal(output);
@@ -81,22 +81,22 @@ describe('util', () => {
 
     it('should handle undefined source roots', () => {
       Object.defineProperty(process, 'platform', {
-        value: 'win32'
+        value: 'win32',
       });
       const input = {
         file:
           'C:/development/git/coverage-istanbul-reporter-path/client/modules/app/app.component.ts',
         sources: [
-          'C:\\development\\git\\coverage-istanbul-reporter-path\\client\\modules\\app\\app.component.ts'
-        ]
+          'C:\\development\\git\\coverage-istanbul-reporter-path\\client\\modules\\app\\app.component.ts',
+        ],
       };
 
       const output = {
         file:
           'C:\\development\\git\\coverage-istanbul-reporter-path\\client\\modules\\app\\app.component.ts',
         sources: [
-          'C:\\development\\git\\coverage-istanbul-reporter-path\\client\\modules\\app\\app.component.ts'
-        ]
+          'C:\\development\\git\\coverage-istanbul-reporter-path\\client\\modules\\app\\app.component.ts',
+        ],
       };
 
       expect(fixWebpackSourcePaths(input)).to.deep.equal(output);
@@ -106,13 +106,13 @@ describe('util', () => {
       const input = {
         file: '/foo/bar',
         sourceRoot: '/foo',
-        sources: ['\\foo\\bar']
+        sources: ['\\foo\\bar'],
       };
 
       const output = {
         file: '/foo/bar',
         sourceRoot: '/foo',
-        sources: ['\\foo\\bar']
+        sources: ['\\foo\\bar'],
       };
 
       expect(fixWebpackSourcePaths(input)).to.deep.equal(output);
@@ -125,15 +125,15 @@ describe('util', () => {
           'C:/development/git/coverage-istanbul-reporter-path/client/modules/app/app.component.ts',
         sourceRoot: 'C:/development/git/coverage-istanbul-reporter-path/',
         sources: [
-          'C:/development/git/coverage-istanbul-reporter-path/client/modules/app/app.component.ts'
-        ]
+          'C:/development/git/coverage-istanbul-reporter-path/client/modules/app/app.component.ts',
+        ],
       };
 
       const output = {
         file:
           'C:/development/git/coverage-istanbul-reporter-path/client/modules/app/app.component.ts',
         sourceRoot: 'C:/development/git/coverage-istanbul-reporter-path/',
-        sources: ['client/modules/app/app.component.ts']
+        sources: ['client/modules/app/app.component.ts'],
       };
 
       expect(fixWebpackSourcePaths(input)).to.deep.equal(output);
@@ -143,14 +143,14 @@ describe('util', () => {
       const input = {
         file:
           '/Users/mattlewis/Code/open-source/karma-coverage-istanbul-reporter/test/fixtures/typescript/src/example.ts',
-        sourceRoot: ''
+        sourceRoot: '',
       };
 
       const output = {
         file:
           '/Users/mattlewis/Code/open-source/karma-coverage-istanbul-reporter/test/fixtures/typescript/src/example.ts',
         sourceRoot: '',
-        sources: []
+        sources: [],
       };
 
       expect(fixWebpackSourcePaths(input)).to.deep.equal(output);
@@ -160,26 +160,26 @@ describe('util', () => {
       const input = {
         file: 'example.ts',
         sourceRoot: 'src',
-        sources: ['example.ts']
+        sources: ['example.ts'],
       };
 
       const output = {
         file: 'example.ts',
         sourceRoot:
           '/Users/mattlewis/Code/open-source/karma-coverage-istanbul-reporter/test/fixtures/typescript/src',
-        sources: ['example.ts']
+        sources: ['example.ts'],
       };
       expect(
         fixWebpackSourcePaths(input, {
           context:
-            '/Users/mattlewis/Code/open-source/karma-coverage-istanbul-reporter/test/fixtures/typescript'
+            '/Users/mattlewis/Code/open-source/karma-coverage-istanbul-reporter/test/fixtures/typescript',
         })
       ).to.deep.equal(output);
     });
 
     it('should use the current directory if webpack context is not set', () => {
       Object.defineProperty(process, 'platform', {
-        value: 'win32'
+        value: 'win32',
       });
       process.cwd = () =>
         'C:\\Users\\mattlewis\\Code\\open-source\\karma-coverage-istanbul-reporter\\test\\fixtures\\typescript';
@@ -187,15 +187,15 @@ describe('util', () => {
         file: 'example.ts',
         sourceRoot: 'src/',
         sources: [
-          'C:\\Users\\mattlewis\\Code\\open-source\\karma-coverage-istanbul-reporter\\test\\fixtures\\typescript\\src\\example.ts'
-        ]
+          'C:\\Users\\mattlewis\\Code\\open-source\\karma-coverage-istanbul-reporter\\test\\fixtures\\typescript\\src\\example.ts',
+        ],
       };
 
       const output = {
         file: 'example.ts',
         sourceRoot:
           'C:\\Users\\mattlewis\\Code\\open-source\\karma-coverage-istanbul-reporter\\test\\fixtures\\typescript\\src\\',
-        sources: ['example.ts']
+        sources: ['example.ts'],
       };
       expect(fixWebpackSourcePaths(input, undefined)).to.deep.equal(output);
     });
@@ -205,19 +205,19 @@ describe('util', () => {
         file: 'example.ts',
         sourceRoot:
           '/Users/mattlewis/Code/open-source/karma-coverage-istanbul-reporter/test/fixtures/typescript/src',
-        sources: ['example.ts']
+        sources: ['example.ts'],
       };
 
       const output = {
         file: 'example.ts',
         sourceRoot:
           '/Users/mattlewis/Code/open-source/karma-coverage-istanbul-reporter/test/fixtures/typescript/src',
-        sources: ['example.ts']
+        sources: ['example.ts'],
       };
       expect(
         fixWebpackSourcePaths(input, {
           context:
-            '/Users/mattlewis/Code/open-source/karma-coverage-istanbul-reporter/test/fixtures/typescript'
+            '/Users/mattlewis/Code/open-source/karma-coverage-istanbul-reporter/test/fixtures/typescript',
         })
       ).to.deep.equal(output);
     });
@@ -227,19 +227,19 @@ describe('util', () => {
         file: 'example.ts',
         sourceRoot:
           '/Users/mattlewis/Code/open-source/karma-coverage-istanbul-reporter/test/fixtures/typescript',
-        sources: ['example.ts']
+        sources: ['example.ts'],
       };
 
       const output = {
         file: 'example.ts',
         sourceRoot:
           '/Users/mattlewis/Code/open-source/karma-coverage-istanbul-reporter/test/fixtures/typescript',
-        sources: ['example.ts']
+        sources: ['example.ts'],
       };
       expect(
         fixWebpackSourcePaths(input, {
           context:
-            '/Users/mattlewis/Code/open-source/karma-coverage-istanbul-reporter/test/fixtures/typescript/src'
+            '/Users/mattlewis/Code/open-source/karma-coverage-istanbul-reporter/test/fixtures/typescript/src',
         })
       ).to.deep.equal(output);
     });
