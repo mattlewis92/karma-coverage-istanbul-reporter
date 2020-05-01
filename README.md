@@ -11,7 +11,7 @@
 
 ## About
 
-This is a reporter only and does not perform the actual instrumentation of your code. Babel users should use the [istanbul babel plugin](https://github.com/istanbuljs/babel-plugin-istanbul) to instrument your code and webpack + typescript users should use the [istanbul-instrumenter-loader](https://github.com/deepsweet/istanbul-instrumenter-loader) and then use this karma reporter to do the actual reporting. See the [test config](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/blob/master/test/karma.conf.js) for an e2e example of how to combine them.
+This is a reporter only and does not perform the actual instrumentation of your code. Babel users should use the [istanbul babel plugin](https://github.com/istanbuljs/babel-plugin-istanbul) to instrument your code and webpack + typescript users should use the [coverage-istanbul-loader](https://github.com/JS-DevTools/coverage-istanbul-loader) and then use this karma reporter to do the actual reporting. See the [test config](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/blob/master/test/karma.conf.js) for an e2e example of how to combine them.
 
 ## Installation
 
