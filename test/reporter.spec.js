@@ -24,8 +24,8 @@ function createServer(config) {
           'karma-phantomjs-launcher',
           'karma-webpack',
           'karma-sourcemap-loader',
-          karmaCoverageIstanbulReporter
-        ]
+          karmaCoverageIstanbulReporter,
+        ],
       },
       config
     ),
@@ -40,7 +40,7 @@ describe('karma-coverage-istanbul-reporter', () => {
     fs.mkdirSync(OUTPUT_PATH);
   });
 
-  it('should generate a remapped coverage report', done => {
+  it('should generate a remapped coverage report', (done) => {
     const server = createServer();
     server.start();
     server.on('run_complete', () => {
@@ -52,39 +52,39 @@ describe('karma-coverage-istanbul-reporter', () => {
             total: 11,
             covered: 9,
             skipped: 0,
-            pct: 81.82
+            pct: 81.82,
           },
           statements: {
             total: 11,
             covered: 9,
             skipped: 0,
-            pct: 81.82
+            pct: 81.82,
           },
           functions: {
             total: 5,
             covered: 3,
             skipped: 0,
-            pct: 60
+            pct: 60,
           },
           branches: {
             total: 0,
             covered: 0,
             skipped: 0,
-            pct: 100
-          }
+            pct: 100,
+          },
         });
         done();
       }, fileReadTimeout);
     });
   });
 
-  it('should fix webpack loader source paths', done => {
+  it('should fix webpack loader source paths', (done) => {
     const server = createServer({
       coverageIstanbulReporter: {
         reports: ['json-summary'],
         dir: path.join(__dirname, 'fixtures', 'outputs'),
-        fixWebpackSourcePaths: true
-      }
+        fixWebpackSourcePaths: true,
+      },
     });
     server.start();
     server.on('run_complete', () => {
@@ -92,7 +92,7 @@ describe('karma-coverage-istanbul-reporter', () => {
         // Hacky workaround to make sure the file has been written
         const summary = JSON.parse(fs.readFileSync(OUTPUT_FILE));
         const files = Object.keys(summary);
-        files.forEach(file => {
+        files.forEach((file) => {
           expect(file).not.to.contain('tslint-loader');
         });
         done();
@@ -100,12 +100,12 @@ describe('karma-coverage-istanbul-reporter', () => {
     });
   });
 
-  it('should output to the browser folder', done => {
+  it('should output to the browser folder', (done) => {
     const server = createServer({
       coverageIstanbulReporter: {
         reports: ['json-summary'],
-        dir: path.join(__dirname, 'fixtures', 'outputs', '%browser%')
-      }
+        dir: path.join(__dirname, 'fixtures', 'outputs', '%browser%'),
+      },
     });
     server.start();
     server.on('run_complete', () => {
@@ -113,7 +113,9 @@ describe('karma-coverage-istanbul-reporter', () => {
         // Hacky workaround to make sure the file has been written
         expect(
           Boolean(
-            fs.readdirSync(OUTPUT_PATH).find(dir => dir.startsWith('PhantomJS'))
+            fs
+              .readdirSync(OUTPUT_PATH)
+              .find((dir) => dir.startsWith('PhantomJS'))
           )
         ).to.equal(true);
         done();
@@ -121,13 +123,13 @@ describe('karma-coverage-istanbul-reporter', () => {
     });
   });
 
-  it('should create a combined browser report', done => {
+  it('should create a combined browser report', (done) => {
     const server = createServer({
       coverageIstanbulReporter: {
         reports: ['json-summary'],
         dir: path.join(__dirname, 'fixtures', 'outputs'),
-        combineBrowserReports: true
-      }
+        combineBrowserReports: true,
+      },
     });
     server.start();
     server.on('run_complete', () => {
@@ -139,26 +141,26 @@ describe('karma-coverage-istanbul-reporter', () => {
             total: 11,
             covered: 9,
             skipped: 0,
-            pct: 81.82
+            pct: 81.82,
           },
           statements: {
             total: 11,
             covered: 9,
             skipped: 0,
-            pct: 81.82
+            pct: 81.82,
           },
           functions: {
             total: 5,
             covered: 3,
             skipped: 0,
-            pct: 60
+            pct: 60,
           },
           branches: {
             total: 0,
             covered: 0,
             skipped: 0,
-            pct: 100
-          }
+            pct: 100,
+          },
         });
         done();
       }, fileReadTimeout);
@@ -166,19 +168,19 @@ describe('karma-coverage-istanbul-reporter', () => {
   });
 
   describe('skipFilesWithNoCoverage', () => {
-    const createConfig = skipFilesWithNoCoverage => ({
+    const createConfig = (skipFilesWithNoCoverage) => ({
       files: ['fixtures/typescript/src/ignored-file.ts'],
       preprocessors: {
-        'fixtures/typescript/src/ignored-file.ts': ['webpack', 'sourcemap']
+        'fixtures/typescript/src/ignored-file.ts': ['webpack', 'sourcemap'],
       },
       logLevel: 'DEBUG',
       coverageIstanbulReporter: {
         reports: ['json'],
         dir: path.join(__dirname, 'fixtures', 'outputs'),
-        skipFilesWithNoCoverage
-      }
+        skipFilesWithNoCoverage,
+      },
     });
-    it('should map files with no coverage', done => {
+    it('should map files with no coverage', (done) => {
       const server = createServer(createConfig(false));
       server.start();
       server.on('run_complete', () => {
@@ -202,7 +204,7 @@ describe('karma-coverage-istanbul-reporter', () => {
         }, fileReadTimeout);
       });
     });
-    it('should not map files with no coverage', done => {
+    it('should not map files with no coverage', (done) => {
       const server = createServer(createConfig(true));
       server.start();
       server.on('run_complete', () => {
@@ -215,7 +217,7 @@ describe('karma-coverage-istanbul-reporter', () => {
           expect(
             Boolean(
               output.match(
-                /\[DEBUG\] reporter\.coverage-istanbul - File \[\/.+test\/fixtures\/typescript\/src\/ignored-file\.ts\] ignored, nothing could be mapped/
+                /\[DEBUG] reporter\.coverage-istanbul - File \[\/.+test\/fixtures\/typescript\/src\/ignored-file\.ts] ignored, nothing could be mapped/
               )
             )
           ).to.equal(true);
@@ -225,9 +227,9 @@ describe('karma-coverage-istanbul-reporter', () => {
     });
   });
 
-  it('should handle no config being set', done => {
+  it('should handle no config being set', (done) => {
     const server = createServer({
-      coverageIstanbulReporter: null
+      coverageIstanbulReporter: null,
     });
     server.start();
     server.on('run_complete', () => {
@@ -239,7 +241,7 @@ describe('karma-coverage-istanbul-reporter', () => {
   });
 
   describe('coverage thresholds', () => {
-    it('should not meet the thresholds', done => {
+    it('should not meet the thresholds', (done) => {
       const server = createServer({
         coverageIstanbulReporter: {
           reports: ['json-summary'],
@@ -248,9 +250,9 @@ describe('karma-coverage-istanbul-reporter', () => {
             statements: 100,
             lines: 100,
             branches: 100,
-            functions: 100
-          }
-        }
+            functions: 100,
+          },
+        },
       });
       server.start();
 
@@ -273,7 +275,7 @@ describe('karma-coverage-istanbul-reporter', () => {
       });
     });
 
-    it('should meet the thresholds', done => {
+    it('should meet the thresholds', (done) => {
       const server = createServer({
         coverageIstanbulReporter: {
           reports: ['json-summary'],
@@ -282,9 +284,9 @@ describe('karma-coverage-istanbul-reporter', () => {
             statements: 50,
             lines: 50,
             branches: 50,
-            functions: 50
-          }
-        }
+            functions: 50,
+          },
+        },
       });
       server.start();
 
@@ -307,7 +309,7 @@ describe('karma-coverage-istanbul-reporter', () => {
       });
     });
 
-    it('should enforce per file thresholds', done => {
+    it('should enforce per file thresholds', (done) => {
       const server = createServer({
         coverageIstanbulReporter: {
           reports: ['json-summary'],
@@ -318,16 +320,16 @@ describe('karma-coverage-istanbul-reporter', () => {
               statements: 50,
               lines: 50,
               branches: 50,
-              functions: 50
+              functions: 50,
             },
             each: {
               statements: 80,
               lines: 80,
               branches: 80,
-              functions: 60
-            }
-          }
-        }
+              functions: 60,
+            },
+          },
+        },
       });
       server.start();
 
@@ -345,42 +347,42 @@ describe('karma-coverage-istanbul-reporter', () => {
         expect(
           Boolean(
             output.match(
-              /\[ERROR\] reporter\.coverage-istanbul - Coverage for statements \(85\.71%\) in file \/.+test\/fixtures\/typescript\/src\/example\.ts does not meet per file threshold \(80%\)/
+              /\[ERROR] reporter\.coverage-istanbul - Coverage for statements \(85\.71%\) in file \/.+test\/fixtures\/typescript\/src\/example\.ts does not meet per file threshold \(80%\)/
             )
           )
         ).to.equal(false);
         expect(
           Boolean(
             output.match(
-              /\[ERROR\] reporter\.coverage-istanbul - Coverage for lines \(85\.71%\) in file \/.+test\/fixtures\/typescript\/src\/example\.ts does not meet per file threshold \(80%\)/
+              /\[ERROR] reporter\.coverage-istanbul - Coverage for lines \(85\.71%\) in file \/.+test\/fixtures\/typescript\/src\/example\.ts does not meet per file threshold \(80%\)/
             )
           )
         ).to.equal(false);
         expect(
           Boolean(
             output.match(
-              /\[ERROR\] reporter\.coverage-istanbul - Coverage for functions \(66\.67%\) in file \/.+test\/fixtures\/typescript\/src\/example\.ts does not meet per file threshold \(60%\)/
+              /\[ERROR] reporter\.coverage-istanbul - Coverage for functions \(66\.67%\) in file \/.+test\/fixtures\/typescript\/src\/example\.ts does not meet per file threshold \(60%\)/
             )
           )
         ).to.equal(false);
         expect(
           Boolean(
             output.match(
-              /\[ERROR\] reporter\.coverage-istanbul - Coverage for statements \(75%\) in file \/.+test\/fixtures\/typescript\/src\/another-file\.ts does not meet per file threshold \(80%\)/
+              /\[ERROR] reporter\.coverage-istanbul - Coverage for statements \(75%\) in file \/.+test\/fixtures\/typescript\/src\/another-file\.ts does not meet per file threshold \(80%\)/
             )
           )
         ).not.to.equal(false);
         expect(
           Boolean(
             output.match(
-              /\[ERROR\] reporter\.coverage-istanbul - Coverage for lines \(75%\) in file \/.+test\/fixtures\/typescript\/src\/another-file\.ts does not meet per file threshold \(80%\)/
+              /\[ERROR] reporter\.coverage-istanbul - Coverage for lines \(75%\) in file \/.+test\/fixtures\/typescript\/src\/another-file\.ts does not meet per file threshold \(80%\)/
             )
           )
         ).not.to.equal(false);
         expect(
           Boolean(
             output.match(
-              /\[ERROR\] reporter\.coverage-istanbul - Coverage for functions \(50%\) in file \/.+test\/fixtures\/typescript\/src\/another-file\.ts does not meet per file threshold \(60%\)/
+              /\[ERROR] reporter\.coverage-istanbul - Coverage for functions \(50%\) in file \/.+test\/fixtures\/typescript\/src\/another-file\.ts does not meet per file threshold \(60%\)/
             )
           )
         ).not.to.equal(false);
@@ -392,7 +394,7 @@ describe('karma-coverage-istanbul-reporter', () => {
       });
     });
 
-    it('should emit the threshold log as a warning', done => {
+    it('should emit the threshold log as a warning', (done) => {
       const server = createServer({
         coverageIstanbulReporter: {
           reports: ['json-summary'],
@@ -403,10 +405,10 @@ describe('karma-coverage-istanbul-reporter', () => {
               statements: 100,
               lines: 100,
               branches: 100,
-              functions: 100
-            }
-          }
-        }
+              functions: 100,
+            },
+          },
+        },
       });
       server.start();
 
@@ -429,7 +431,7 @@ describe('karma-coverage-istanbul-reporter', () => {
       });
     });
 
-    it('should allow per file thresholds to be overridden', done => {
+    it('should allow per file thresholds to be overridden', (done) => {
       const server = createServer({
         coverageIstanbulReporter: {
           reports: ['json-summary'],
@@ -440,7 +442,7 @@ describe('karma-coverage-istanbul-reporter', () => {
               statements: 50,
               lines: 50,
               branches: 50,
-              functions: 50
+              functions: 50,
             },
             each: {
               statements: 80,
@@ -450,15 +452,15 @@ describe('karma-coverage-istanbul-reporter', () => {
               overrides: {
                 'fixtures/typescript/src/example.ts': {
                   statements: 90,
-                  lines: 100
+                  lines: 100,
                 },
                 'fixtures/typescript/src/*.ts': {
-                  functions: 90
-                }
-              }
-            }
-          }
-        }
+                  functions: 90,
+                },
+              },
+            },
+          },
+        },
       });
       server.start();
 
@@ -467,42 +469,42 @@ describe('karma-coverage-istanbul-reporter', () => {
         expect(
           Boolean(
             output.match(
-              /\[ERROR\] reporter\.coverage-istanbul - Coverage for statements \(85\.71%\) in file \/.+test\/fixtures\/typescript\/src\/example\.ts does not meet per file threshold \(90%\)/
+              /\[ERROR] reporter\.coverage-istanbul - Coverage for statements \(85\.71%\) in file \/.+test\/fixtures\/typescript\/src\/example\.ts does not meet per file threshold \(90%\)/
             )
           )
         ).to.equal(true);
         expect(
           Boolean(
             output.match(
-              /\[ERROR\] reporter\.coverage-istanbul - Coverage for lines \(85\.71%\) in file \/.+test\/fixtures\/typescript\/src\/example\.ts does not meet per file threshold \(100%\)/
+              /\[ERROR] reporter\.coverage-istanbul - Coverage for lines \(85\.71%\) in file \/.+test\/fixtures\/typescript\/src\/example\.ts does not meet per file threshold \(100%\)/
             )
           )
         ).to.equal(true);
         expect(
           Boolean(
             output.match(
-              /\[ERROR\] reporter\.coverage-istanbul - Coverage for functions \(66\.67%\) in file \/.+test\/fixtures\/typescript\/src\/example\.ts does not meet per file threshold \(60%\)/
+              /\[ERROR] reporter\.coverage-istanbul - Coverage for functions \(66\.67%\) in file \/.+test\/fixtures\/typescript\/src\/example\.ts does not meet per file threshold \(60%\)/
             )
           )
         ).to.equal(false);
         expect(
           Boolean(
             output.match(
-              /\[ERROR\] reporter\.coverage-istanbul - Coverage for statements \(75%\) in file \/.+test\/fixtures\/typescript\/src\/another-file\.ts does not meet per file threshold \(80%\)/
+              /\[ERROR] reporter\.coverage-istanbul - Coverage for statements \(75%\) in file \/.+test\/fixtures\/typescript\/src\/another-file\.ts does not meet per file threshold \(80%\)/
             )
           )
         ).to.equal(true);
         expect(
           Boolean(
             output.match(
-              /\[ERROR\] reporter\.coverage-istanbul - Coverage for lines \(75%\) in file \/.+test\/fixtures\/typescript\/src\/another-file\.ts does not meet per file threshold \(80%\)/
+              /\[ERROR] reporter\.coverage-istanbul - Coverage for lines \(75%\) in file \/.+test\/fixtures\/typescript\/src\/another-file\.ts does not meet per file threshold \(80%\)/
             )
           )
         ).to.equal(true);
         expect(
           Boolean(
             output.match(
-              /\[ERROR\] reporter\.coverage-istanbul - Coverage for functions \(50%\) in file \/.+test\/fixtures\/typescript\/src\/another-file\.ts does not meet per file threshold \(90%\)/
+              /\[ERROR] reporter\.coverage-istanbul - Coverage for functions \(50%\) in file \/.+test\/fixtures\/typescript\/src\/another-file\.ts does not meet per file threshold \(90%\)/
             )
           )
         ).to.equal(true);

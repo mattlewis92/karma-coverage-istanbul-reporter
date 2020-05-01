@@ -2,11 +2,11 @@ const path = require('path');
 const minimatch = require('minimatch');
 
 function fixWebpackFilePath(filePath) {
-  if (filePath.indexOf('!') !== -1) {
+  if (filePath.includes('!')) {
     filePath = filePath.split('!').pop();
   }
 
-  if (filePath.indexOf('?') !== -1) {
+  if (filePath.includes('?')) {
     filePath = filePath.split('?')[0];
   }
 
@@ -43,14 +43,14 @@ function fixWebpackSourcePaths(sourceMap, webpackConfig) {
 
   const result = Object.assign({}, sourceMap, {
     file: fixPathSeparators(sourceMap.file),
-    sources: (sourceMap.sources || []).map(source => {
+    sources: (sourceMap.sources || []).map((source) => {
       source = fixWebpackFilePath(source);
       if (sourceRoot && source.startsWith(sourceRoot)) {
         source = source.replace(sourceRoot, '');
       }
 
       return source;
-    })
+    }),
   });
 
   if (sourceRoot) {
@@ -81,7 +81,7 @@ function overrideThresholds(key, overrides, basePath) {
   let thresholds = {};
 
   // First match wins
-  Object.keys(overrides).some(pattern => {
+  Object.keys(overrides).some((pattern) => {
     if (minimatch(normalize(key, basePath), pattern, { dot: true })) {
       thresholds = overrides[pattern];
       return true;
