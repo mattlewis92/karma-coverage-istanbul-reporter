@@ -1,6 +1,17 @@
-# Change Log
+# Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+## [3.0.0](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/compare/v2.1.1...v3.0.0) (2020-05-01)
+
+
+### ⚠ BREAKING CHANGES
+
+* node 6 and node 8 are no longer supported. To use this package you must upgrade to node 10 or higher.
+
+### Features
+
+* upgrade to latest istanbul api ([28cbbfb](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/commit/28cbbfb2cf8bd5b9533ceb489cc5047ff3def730))
 
 <a name="2.1.1"></a>
 ## [2.1.1](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/compare/v2.1.0...v2.1.1) (2019-11-21)
