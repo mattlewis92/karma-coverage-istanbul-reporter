@@ -4,6 +4,7 @@ const path = require('path');
 const chai = require('chai');
 const karma = require('karma');
 const rimraf = require('rimraf');
+const sinon = require('sinon');
 const karmaCoverageIstanbulReporter = require('../src/reporter');
 const { OUTPUT_LOG_FILE } = require('./karma.conf');
 
@@ -34,10 +35,16 @@ function createServer(config) {
 }
 
 describe('karma-coverage-istanbul-reporter', () => {
+  let stub;
   beforeEach(() => {
     rimraf.sync(OUTPUT_PATH);
     rimraf.sync(OUTPUT_LOG_FILE);
     fs.mkdirSync(OUTPUT_PATH);
+    stub = sinon.stub(process, 'on');
+  });
+
+  afterEach(() => {
+    stub.restore();
   });
 
   it('should generate a remapped coverage report', (done) => {

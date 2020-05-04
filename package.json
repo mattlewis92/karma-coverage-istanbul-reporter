@@ -66,6 +66,7 @@
     "prettier": "^2.0.5",
     "pretty-quick": "^2.0.1",
     "rimraf": "^3.0.2",
+    "sinon": "^9.0.2",
     "standard-version": "^7.1.0",
     "ts-loader": "^7.0.2",
     "tslint": "^6.1.2",
