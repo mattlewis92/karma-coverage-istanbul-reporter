@@ -9,6 +9,8 @@ All notable changes to this project will be documented in this file. See [standa
 
 * node 6 and node 8 are no longer supported. To use this package you must upgrade to node 10 or higher.
 
+* If using threshold reporting and the programmatic karma api, then the exitCode will no longer be returned as 1 when thresholds are not met.
+
 ### Features
 
 * upgrade to latest istanbul api ([28cbbfb](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/commit/28cbbfb2cf8bd5b9533ceb489cc5047ff3def730))

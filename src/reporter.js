@@ -74,7 +74,7 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
     }
   }
 
-  async function createReport(browserOrBrowsers, results) {
+  async function createReport(browserOrBrowsers) {
     const reportConfigOverride =
       !coverageConfig.combineBrowserReports && coverageConfig.dir
         ? {
@@ -196,8 +196,10 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
       });
     });
 
-    if (thresholdCheckFailed && results && !thresholds.emitWarning) {
-      results.exitCode = 1;
+    if (thresholdCheckFailed && !thresholds.emitWarning && config.singleRun) {
+      process.on('exit', () => {
+        process.exit(1);
+      });
     }
   }
 
@@ -226,15 +228,13 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
   };
 
   const baseReporterOnRunComplete = this.onRunComplete;
-  this.onRunComplete = async function (browsers, results) {
+  this.onRunComplete = async function (browsers) {
     Reflect.apply(baseReporterOnRunComplete, this, arguments);
 
     if (coverageConfig.combineBrowserReports) {
-      await createReport(browsers, results);
+      await createReport(browsers);
     } else {
-      await Promise.all(
-        browsers.map((browser) => createReport(browser, results))
-      );
+      await Promise.all(browsers.map((browser) => createReport(browser)));
     }
   };
 }
