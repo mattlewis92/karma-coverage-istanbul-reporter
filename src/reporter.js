@@ -35,6 +35,8 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
   const log = logger.create('reporter.coverage-istanbul');
   const browserCoverage = new WeakMap();
   const coverageConfig = Object.assign({}, config.coverageIstanbulReporter);
+  let pendingReports = false;
+  let reportsFinished = () => {};
 
   function addCoverage(coverageMap, browser) {
     const coverage = browserCoverage.get(browser);
@@ -228,13 +230,27 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
   };
 
   const baseReporterOnRunComplete = this.onRunComplete;
-  this.onRunComplete = async function (browsers) {
+  this.onRunComplete = async function (browsers, results) {
     Reflect.apply(baseReporterOnRunComplete, this, arguments);
+    pendingReports = true;
 
-    if (coverageConfig.combineBrowserReports) {
-      await createReport(browsers);
+    try {
+      if (coverageConfig.combineBrowserReports) {
+        await createReport(browsers);
+      } else {
+        await Promise.all(browsers.map((browser) => createReport(browser)));
+      }
+    } finally {
+      pendingReports = false;
+      reportsFinished();
+    }
+  };
+
+  this.onExit = (done) => {
+    if (pendingReports) {
+      reportsFinished = done;
     } else {
-      await Promise.all(browsers.map((browser) => createReport(browser)));
+      done();
     }
   };
 }
