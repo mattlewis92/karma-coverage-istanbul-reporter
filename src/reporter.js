@@ -230,7 +230,7 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
   };
 
   const baseReporterOnRunComplete = this.onRunComplete;
-  this.onRunComplete = async function (browsers, results) {
+  this.onRunComplete = async function (browsers) {
     Reflect.apply(baseReporterOnRunComplete, this, arguments);
     pendingReports = true;
 
