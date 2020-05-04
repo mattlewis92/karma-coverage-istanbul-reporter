@@ -1,6 +1,6 @@
 {
   "name": "karma-coverage-istanbul-reporter",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "A karma reporter that uses the latest istanbul 1.x APIs (with full sourcemap support) to report coverage.",
   "funding": {
     "url": "https://github.com/sponsors/mattlewis92"

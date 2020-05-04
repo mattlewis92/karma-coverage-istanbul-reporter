@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.1](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/compare/v3.0.0...v3.0.1) (2020-05-04)
+
+
+### Bug Fixes
+
+* set correct process exit code when thresholds are not met ([9ba3fe0](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/commit/9ba3fe0acf3ee778518c154a8dd050584f47bc13)), closes [#80](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/issues/80)
+
 ## [3.0.0](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/compare/v2.1.1...v3.0.0) (2020-05-01)
 
 
