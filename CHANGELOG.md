@@ -7,8 +7,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Bug Fixes
 
-* return correct exit code when thresholds are not met ([a0cbdd8](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/commit/a0cbdd80a2268586b62ef72e5541a36b1b46396a)), closes [#80](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/issues/80)
-* wait for reports to finish writing before exiting karma ([0d37f42](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/commit/0d37f42cac5402615048ec3c8f1575b1eeaf8c7b))
+* return correct exit code when thresholds are not met (that works with the karma api) ([a0cbdd8](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/commit/a0cbdd80a2268586b62ef72e5541a36b1b46396a)), closes [#80](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/issues/80)
 
 ### [3.0.1](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/compare/v3.0.0...v3.0.1) (2020-05-04)
 
@@ -23,8 +22,6 @@ All notable changes to this project will be documented in this file. See [standa
 ### ⚠ BREAKING CHANGES
 
 * node 6 and node 8 are no longer supported. To use this package you must upgrade to node 10 or higher.
-
-* If using threshold reporting and the programmatic karma api, then the exitCode will no longer be returned as 1 when thresholds are not met.
 
 ### Features
 
