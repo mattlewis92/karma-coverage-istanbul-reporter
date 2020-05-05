@@ -14,7 +14,7 @@ const OUTPUT_FILE = path.join(OUTPUT_PATH, 'coverage-summary.json');
 const OUTPUT_DETAILS_FILE = path.join(OUTPUT_PATH, 'coverage-final.json');
 const fileReadTimeout = 300;
 
-function createServer(config) {
+function createServer(config, cb) {
   config = config || {};
   return new karma.Server(
     Object.assign(
@@ -30,7 +30,11 @@ function createServer(config) {
       },
       config
     ),
-    () => {}
+    (exitCode) => {
+      if (cb) {
+        cb(exitCode);
+      }
+    }
   );
 }
 
@@ -249,18 +253,23 @@ describe('karma-coverage-istanbul-reporter', () => {
 
   describe('coverage thresholds', () => {
     it('should not meet the thresholds', (done) => {
-      const server = createServer({
-        coverageIstanbulReporter: {
-          reports: ['json-summary'],
-          dir: path.join(__dirname, 'fixtures', 'outputs'),
-          thresholds: {
-            statements: 100,
-            lines: 100,
-            branches: 100,
-            functions: 100,
+      const server = createServer(
+        {
+          coverageIstanbulReporter: {
+            reports: ['json-summary'],
+            dir: path.join(__dirname, 'fixtures', 'outputs'),
+            thresholds: {
+              statements: 100,
+              lines: 100,
+              branches: 100,
+              functions: 100,
+            },
           },
         },
-      });
+        (exitCode) => {
+          expect(exitCode).to.equal(1);
+        }
+      );
       server.start();
 
       function checkOutput() {
@@ -521,6 +530,32 @@ describe('karma-coverage-istanbul-reporter', () => {
       server.on('run_complete', () => {
         setTimeout(checkOutput, fileReadTimeout); // Hacky workaround to make sure the output file has been written
       });
+    });
+
+    it('should have an exitCode of zero when emitWarning is true', (done) => {
+      const server = createServer(
+        {
+          coverageIstanbulReporter: {
+            reports: ['json-summary'],
+            dir: path.join(__dirname, 'fixtures', 'outputs'),
+            fixWebpackSourcePaths: true,
+            thresholds: {
+              emitWarning: true,
+              global: {
+                statements: 100,
+                lines: 100,
+                branches: 100,
+                functions: 100,
+              },
+            },
+          },
+        },
+        (exitCode) => {
+          expect(exitCode).to.equal(0);
+          done();
+        }
+      );
+      server.start();
     });
   });
 });

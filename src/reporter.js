@@ -35,8 +35,6 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
   const log = logger.create('reporter.coverage-istanbul');
   const browserCoverage = new WeakMap();
   const coverageConfig = Object.assign({}, config.coverageIstanbulReporter);
-  let pendingReports = false;
-  let reportsFinished = () => {};
 
   function addCoverage(coverageMap, browser) {
     const coverage = browserCoverage.get(browser);
@@ -76,7 +74,7 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
     }
   }
 
-  async function createReport(browserOrBrowsers) {
+  function createReport(browserOrBrowsers, results) {
     const reportConfigOverride =
       !coverageConfig.combineBrowserReports && coverageConfig.dir
         ? {
@@ -104,10 +102,10 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
       addCoverage(coverageMap, browserOrBrowsers);
     }
 
-    const remappedCoverageMap = await sourceMapStore.transformCoverage(
-      coverageMap
-    );
-    const { sourceFinder } = sourceMapStore;
+    const {
+      sourceFinder,
+      map: remappedCoverageMap,
+    } = sourceMapStore.transformCoverage(coverageMap);
 
     if (!coverageConfig.skipFilesWithNoCoverage) {
       // On Windows, istanbul returns files with mixed forward/backslashes in them
@@ -199,25 +197,32 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
     });
 
     if (thresholdCheckFailed && !thresholds.emitWarning && config.singleRun) {
-      process.on('exit', () => {
-        process.exit(1);
-      });
+      results.exitCode = 1;
     }
   }
 
   function writeReports(config, coverageMap, sourceFinder) {
-    const dir = path.resolve(config.reporting.dir);
+    const reportingConfig = {
+      ...{
+        dir: 'coverage',
+        reports: [],
+        watermarks: [],
+        'report-config': [],
+      },
+      ...config.reporting,
+    };
+    const dir = path.resolve(reportingConfig.dir);
     const contextOptions = {
       dir,
-      watermarks: config.reporting.watermarks || [],
+      watermarks: reportingConfig.watermarks,
       sourceFinder,
       coverageMap,
     };
     const context = libReport.createContext(contextOptions);
 
     const tree = context.getTree(config.summarizer);
-    config.reporting.reports.forEach((name) => {
-      const reportConfig = (config.reporting['report-config'] || [])[name];
+    reportingConfig.reports.forEach((name) => {
+      const reportConfig = reportingConfig['report-config'][name];
       const report = libReports.create(name, reportConfig);
       tree.visit(report, context);
     });
@@ -230,27 +235,13 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
   };
 
   const baseReporterOnRunComplete = this.onRunComplete;
-  this.onRunComplete = async function (browsers) {
+  this.onRunComplete = function (browsers, results) {
     Reflect.apply(baseReporterOnRunComplete, this, arguments);
-    pendingReports = true;
 
-    try {
-      if (coverageConfig.combineBrowserReports) {
-        await createReport(browsers);
-      } else {
-        await Promise.all(browsers.map((browser) => createReport(browser)));
-      }
-    } finally {
-      pendingReports = false;
-      reportsFinished();
-    }
-  };
-
-  this.onExit = (done) => {
-    if (pendingReports) {
-      reportsFinished = done;
+    if (coverageConfig.combineBrowserReports) {
+      createReport(browsers, results);
     } else {
-      done();
+      browsers.forEach((browser) => createReport(browser, results));
     }
   };
 }
