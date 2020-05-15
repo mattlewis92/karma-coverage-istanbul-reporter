@@ -106,7 +106,7 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
       // On Windows, istanbul returns files with mixed forward/backslashes in them
       const fixedFilePaths = {};
       remappedCoverageMap.files().forEach(path => {
-        fixedFilePaths[util.fixPathSeparators(path)] = true;
+        fixedFilePaths[util.fixMixedPathSeparators(path)] = true;
       });
       coverageMap.files().forEach(path => {
         if (!(util.fixPathSeparators(path) in fixedFilePaths)) {

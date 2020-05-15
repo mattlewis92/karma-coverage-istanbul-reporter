@@ -23,6 +23,16 @@ function fixPathSeparators(filePath) {
   return filePath;
 }
 
+function fixMixedPathSeparators(filePath) {
+  const isWin = process.platform.startsWith('win');
+  // Due to  in Windows istanbul returns files with mixed forward/backslashes in them, forwardslashes must be removed
+  if (isWin && filePath) {
+    return filePath.replace(/\//g, '');
+  }
+
+  return filePath;
+}
+
 function fixWebpackSourcePaths(sourceMap, webpackConfig) {
   let { sourceRoot } = sourceMap;
   // As per https://webpack.js.org/configuration/entry-context/#context, if no context is specified, the current
@@ -97,3 +107,4 @@ module.exports.fixPathSeparators = fixPathSeparators;
 module.exports.fixWebpackSourcePaths = fixWebpackSourcePaths;
 module.exports.fixWebpackFilePath = fixWebpackFilePath;
 module.exports.overrideThresholds = overrideThresholds;
+module.exports.fixMixedPathSeparators = fixMixedPathSeparators;
