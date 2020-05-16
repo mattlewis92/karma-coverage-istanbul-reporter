@@ -166,6 +166,7 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
         thresholds,
         `Coverage for ${type} (${globalSummary[type].pct}%) does not meet global threshold (${thresholds.global[type]}%)`
       );
+    });
 
     remappedCoverageMap.files().forEach((file) => {
       const fileThresholds = Object.assign(
