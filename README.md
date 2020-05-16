@@ -83,10 +83,10 @@ module.exports = function(config) {
             }
           }
         }
-      }
+      },
 
       verbose: true // output config used by istanbul for debugging
-    },
+    }
   });
 };
 ```
