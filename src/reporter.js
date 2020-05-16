@@ -162,8 +162,10 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
     const failedGlobalTypes = checkThresholds(thresholds.global, globalSummary);
     failedGlobalTypes.forEach((type) => {
       thresholdCheckFailed = true;
-      logThresholdMessage(`Coverage for ${type} (${globalSummary[type].pct}%) does not meet global threshold (${thresholds.global[type]}%)`);
-    });
+      logThresholdMessage(
+        thresholds,
+        `Coverage for ${type} (${globalSummary[type].pct}%) does not meet global threshold (${thresholds.global[type]}%)`
+      );
 
     remappedCoverageMap.files().forEach((file) => {
       const fileThresholds = Object.assign(
@@ -187,6 +189,7 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
         }
 
         logThresholdMessage(
+          thresholds,
           `Coverage for ${type} (${fileSummary[type].pct}%) in file ${file} does not meet per file threshold (${fileThresholds[type]}%)`
         );
       });
