@@ -162,11 +162,7 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
     const failedGlobalTypes = checkThresholds(thresholds.global, globalSummary);
     failedGlobalTypes.forEach((type) => {
       thresholdCheckFailed = true;
-      logThresholdMessage(
-        `Coverage for ${type} (${
-          globalSummary[type].pct
-        }%) does not meet global threshold (${thresholds.global[type]}%)`
-      );
+      logThresholdMessage(`Coverage for ${type} (${globalSummary[type].pct}%) does not meet global threshold (${thresholds.global[type]}%)`);
     });
 
     remappedCoverageMap.files().forEach((file) => {
@@ -191,11 +187,7 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
         }
 
         logThresholdMessage(
-          `Coverage for ${type} (${
-            fileSummary[type].pct
-          }%) in file ${file} does not meet per file threshold (${
-            fileThresholds[type]
-          }%)`
+          `Coverage for ${type} (${fileSummary[type].pct}%) in file ${file} does not meet per file threshold (${fileThresholds[type]}%)`
         );
       });
     });
@@ -232,14 +224,14 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
     });
   }
 
-  this.onBrowserComplete = function(browser, result) {
+  this.onBrowserComplete = function (browser, result) {
     if (result && result.coverage) {
       browserCoverage.set(browser, result.coverage);
     }
   };
 
   const baseReporterOnRunComplete = this.onRunComplete;
-  this.onRunComplete = function(browsers, results) {
+  this.onRunComplete = function (browsers, results) {
     Reflect.apply(baseReporterOnRunComplete, this, arguments);
 
     if (coverageConfig.combineBrowserReports) {
