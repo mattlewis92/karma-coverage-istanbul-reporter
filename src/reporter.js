@@ -163,7 +163,6 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
     failedGlobalTypes.forEach((type) => {
       thresholdCheckFailed = true;
       logThresholdMessage(
-        thresholds,
         `Coverage for ${type} (${
           globalSummary[type].pct
         }%) does not meet global threshold (${thresholds.global[type]}%)`
@@ -192,7 +191,6 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
         }
 
         logThresholdMessage(
-          thresholds,
           `Coverage for ${type} (${
             fileSummary[type].pct
           }%) in file ${file} does not meet per file threshold (${

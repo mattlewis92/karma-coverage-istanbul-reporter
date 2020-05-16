@@ -56,8 +56,8 @@ module.exports = function(config) {
         // all options available at: https://github.com/istanbuljs/istanbuljs/blob/73c25ce79f91010d1ff073aa6ff3fd01114f90db/packages/istanbul-reports/lib/html/index.js#L257-L261
         html: {
           // outputs the report in ./coverage/html
-          subdir: 'html',
-        },
+          subdir: 'html'
+        }
       },
 
       // enforce percentage thresholds
@@ -69,7 +69,7 @@ module.exports = function(config) {
           statements: 100,
           lines: 100,
           branches: 100,
-          functions: 100,
+          functions: 100
         },
         // thresholds per file
         each: {
@@ -79,13 +79,13 @@ module.exports = function(config) {
           functions: 100,
           overrides: {
             'baz/component/**/*.js': {
-              statements: 98,
-            },
-          },
-        },
-      },
+              statements: 98
+            }
+          }
+        }
+      }
 
-      verbose: true, // output config used by istanbul for debugging
+      verbose: true // output config used by istanbul for debugging
     },
   });
 };
