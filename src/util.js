@@ -97,4 +97,3 @@ module.exports.fixPathSeparators = fixPathSeparators;
 module.exports.fixWebpackSourcePaths = fixWebpackSourcePaths;
 module.exports.fixWebpackFilePath = fixWebpackFilePath;
 module.exports.overrideThresholds = overrideThresholds;
-module.exports.fixMixedPathSeparators = fixMixedPathSeparators;
