@@ -17,17 +17,7 @@ function fixPathSeparators(filePath) {
   const isWin = process.platform.startsWith('win');
   // Workaround for https://github.com/mattlewis92/karma-coverage-istanbul-reporter/issues/9
   if (isWin && filePath) {
-    return filePath.replace(/\//g, '\\');
-  }
-
-  return filePath;
-}
-
-function fixMixedPathSeparators(filePath) {
-  const isWin = process.platform.startsWith('win');
-  // Due to  in Windows istanbul returns files with mixed forward/backslashes in them, forwardslashes must be removed
-  if (isWin && filePath) {
-    return filePath.replace(/\//g, '');
+    return filePath.replace(/\//g, '\\').replace(/\\\\/g, '\\');
   }
 
   return filePath;
