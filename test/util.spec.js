@@ -1,5 +1,6 @@
 const { expect } = require('chai');
 const { fixWebpackSourcePaths } = require('../src/util');
+const { fixPathSeparators } = require('../src/util');
 
 const originalPlatform = process.platform;
 
@@ -242,6 +243,27 @@ describe('util', () => {
             '/Users/mattlewis/Code/open-source/karma-coverage-istanbul-reporter/test/fixtures/typescript/src',
         })
       ).to.deep.equal(output);
+    });
+  });
+
+  describe('fixPathSeparators', () => {
+    it('Should transform any forwardslash into backslash and remove any leftover backslash if OS is Windows', () => {
+      let output;
+
+      const input =
+        '\\Users\\mattlewis\\Code\\/open-source/karma-coverage-istanbul-reporter\\test\\fixtures\\typescript';
+
+      const isWin = process.platform.startsWith('win');
+
+      if (isWin) {
+        output =
+          '\\Users\\mattlewis\\Code\\open-source\\karma-coverage-istanbul-reporter\\test\\fixtures\\typescript';
+      } else {
+        output =
+          '\\Users\\mattlewis\\Code\\/open-source/karma-coverage-istanbul-reporter\\test\\fixtures\\typescript';
+      }
+
+      expect(fixPathSeparators(input)).to.deep.equal(output);
     });
   });
 });
