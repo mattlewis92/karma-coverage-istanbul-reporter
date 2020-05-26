@@ -247,21 +247,30 @@ describe('util', () => {
   });
 
   describe('fixPathSeparators', () => {
-    it('Should transform any forwardslash into backslash and remove any leftover backslash if OS is Windows', () => {
-      let output;
+    let input;
 
-      const input =
+    beforeEach(() => {
+      input =
         '\\Users\\mattlewis\\Code\\/open-source/karma-coverage-istanbul-reporter\\test\\fixtures\\typescript';
+    });
 
-      const isWin = process.platform.startsWith('win');
+    it('Should transform any forwardslash into backslash and remove any leftover backslash if OS is Windows', () => {
+      Object.defineProperty(process, 'platform', {
+        value: 'win32',
+      });
 
-      if (isWin) {
-        output =
-          '\\Users\\mattlewis\\Code\\open-source\\karma-coverage-istanbul-reporter\\test\\fixtures\\typescript';
-      } else {
-        output =
-          '\\Users\\mattlewis\\Code\\/open-source/karma-coverage-istanbul-reporter\\test\\fixtures\\typescript';
-      }
+      const output =
+        '\\Users\\mattlewis\\Code\\open-source\\karma-coverage-istanbul-reporter\\test\\fixtures\\typescript';
+
+      expect(fixPathSeparators(input)).to.deep.equal(output);
+    });
+
+    it('Should not transform any forwardslash into backslash if OS is different from Windows', () => {
+      Object.defineProperty(process, 'platform', {
+        value: 'linux',
+      });
+
+      const output = input;
 
       expect(fixPathSeparators(input)).to.deep.equal(output);
     });
