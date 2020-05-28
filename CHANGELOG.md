@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.3](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/compare/v3.0.2...v3.0.3) (2020-05-28)
+
+
+### Bug Fixes
+
+* duplicated files when "skipFilesWithNoCoverage=false" on windows ([052f6ab](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/commit/052f6abca9a3039fca2a65e9e8488f39f9072b26))
+
 ### [3.0.2](https://github.com/mattlewis92/karma-coverage-istanbul-reporter/compare/v3.0.1...v3.0.2) (2020-05-05)
 
 
