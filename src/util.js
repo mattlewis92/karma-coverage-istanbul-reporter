@@ -17,7 +17,7 @@ function fixPathSeparators(filePath) {
   const isWin = process.platform.startsWith('win');
   // Workaround for https://github.com/mattlewis92/karma-coverage-istanbul-reporter/issues/9
   if (isWin && filePath) {
-    return filePath.replace(/\//g, '\\');
+    return filePath.replace(/\//g, '\\').replace(/\\\\/g, '\\');
   }
 
   return filePath;
