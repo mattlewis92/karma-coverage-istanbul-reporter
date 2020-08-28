@@ -4,6 +4,7 @@ const libSourceMaps = require('istanbul-lib-source-maps');
 const libReport = require('istanbul-lib-report');
 const libReports = require('istanbul-reports');
 const util = require('./util');
+const minimatch = require('minimatch');
 
 const BROWSER_PLACEHOLDER = '%browser%';
 
@@ -45,6 +46,13 @@ function CoverageIstanbulReporter(baseReporterDecorator, logger, config) {
     }
 
     Object.keys(coverage).forEach((filename) => {
+      if (
+        coverageConfig.exclude &&
+        coverageConfig.exclude.some((exclude) => minimatch(filename, exclude))
+      ) {
+        return;
+      }
+
       const fileCoverage = coverage[filename];
       if (fileCoverage.inputSourceMap && coverageConfig.fixWebpackSourcePaths) {
         fileCoverage.inputSourceMap = util.fixWebpackSourcePaths(

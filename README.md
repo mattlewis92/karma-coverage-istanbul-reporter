@@ -85,7 +85,12 @@ module.exports = function(config) {
         }
       },
 
-      verbose: true // output config used by istanbul for debugging
+      verbose: true, // output config used by istanbul for debugging
+
+      // Glob patterns to exclude from coverage reporting
+      exclude: [
+        '**/test/**',
+      ],
     }
   });
 };

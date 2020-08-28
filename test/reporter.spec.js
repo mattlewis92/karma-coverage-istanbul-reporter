@@ -558,4 +558,27 @@ describe('karma-coverage-istanbul-reporter', () => {
       server.start();
     });
   });
+
+  describe('exclusions', () => {
+    it('excludes files', (done) => {
+      const server = createServer({
+        coverageIstanbulReporter: {
+          exclude: ['**/another-file.ts'],
+        },
+      });
+
+      server.start();
+
+      server.on('run_complete', () => {
+        setTimeout(() => {
+          const summary = JSON.parse(fs.readFileSync(OUTPUT_FILE));
+          for (const key of Object.keys(summary)) {
+            expect(key).not.to.contain('another-file');
+          }
+
+          done();
+        }, fileReadTimeout);
+      });
+    });
+  });
 });
